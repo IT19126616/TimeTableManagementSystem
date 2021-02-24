@@ -1,5 +1,5 @@
 package Member1;
 
-public class abc {
+public class test {
 
 }
