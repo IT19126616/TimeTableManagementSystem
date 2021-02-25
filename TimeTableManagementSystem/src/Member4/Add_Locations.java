@@ -5,10 +5,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JRadioButton;
 
 public class Add_Locations {
 
 	private JFrame frame;
+	private JTextField txtBuildingName;
+	private JTextField txtRoomName;
+	private JTextField txtCapacity;
 
 	/**
 	 * Launch the application.
@@ -58,12 +63,47 @@ public class Add_Locations {
 		lblNewLabel_3.setBounds(30, 219, 139, 26);
 		frame.getContentPane().add(lblNewLabel_3);
 		
-		JLabel lblNewLabel_4 = new JLabel("Room Type");
+		JLabel lblNewLabel_4 = new JLabel("Room Type : ");
 		lblNewLabel_4.setBounds(30, 277, 85, 19);
 		frame.getContentPane().add(lblNewLabel_4);
 		
-		JLabel lblNewLabel_5 = new JLabel("Capscity");
-		lblNewLabel_5.setBounds(30, 331, 45, 13);
+		JLabel lblNewLabel_5 = new JLabel("Capacity : ");
+		lblNewLabel_5.setBounds(30, 331, 85, 16);
 		frame.getContentPane().add(lblNewLabel_5);
+		
+		JButton btnManageSessions = new JButton("Manage Sessions");
+		btnManageSessions.setBounds(137, 606, 196, 26);
+		frame.getContentPane().add(btnManageSessions);
+		
+		JButton btnClear = new JButton("Clear");
+		btnClear.setBounds(371, 609, 85, 21);
+		frame.getContentPane().add(btnClear);
+		
+		JButton btnSave = new JButton("Save");
+		btnSave.setBounds(502, 609, 85, 21);
+		frame.getContentPane().add(btnSave);
+		
+		txtBuildingName = new JTextField();
+		txtBuildingName.setBounds(137, 168, 96, 19);
+		frame.getContentPane().add(txtBuildingName);
+		txtBuildingName.setColumns(10);
+		
+		txtRoomName = new JTextField();
+		txtRoomName.setBounds(137, 219, 96, 19);
+		frame.getContentPane().add(txtRoomName);
+		txtRoomName.setColumns(10);
+		
+		txtCapacity = new JTextField();
+		txtCapacity.setBounds(137, 328, 96, 19);
+		frame.getContentPane().add(txtCapacity);
+		txtCapacity.setColumns(10);
+		
+		JRadioButton rdbtnLectureHall = new JRadioButton("Lecture Hall");
+		rdbtnLectureHall.setBounds(141, 276, 103, 21);
+		frame.getContentPane().add(rdbtnLectureHall);
+		
+		JRadioButton rdbtnLab = new JRadioButton("Laboratory");
+		rdbtnLab.setBounds(257, 276, 103, 21);
+		frame.getContentPane().add(rdbtnLab);
 	}
 }
