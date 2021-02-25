@@ -55,11 +55,15 @@ public class Add_Locations {
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Room Name :");
-		lblNewLabel_3.setBounds(30, 261, 139, 26);
+		lblNewLabel_3.setBounds(30, 219, 139, 26);
 		frame.getContentPane().add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("Room Type");
-		lblNewLabel_4.setBounds(30, 214, 85, 19);
+		lblNewLabel_4.setBounds(30, 277, 85, 19);
 		frame.getContentPane().add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_5 = new JLabel("Capscity");
+		lblNewLabel_5.setBounds(30, 331, 45, 13);
+		frame.getContentPane().add(lblNewLabel_5);
 	}
 }
