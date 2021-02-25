@@ -76,11 +76,11 @@ public class Login {
 				String username=textField.getText();
 				String password=passwordField.getText();
 				
-if(textField.getText().equals("")||passwordField.getText().equals("")) {
+				if(textField.getText().equals("")||passwordField.getText().equals("")) {
 					
 					JOptionPane.showMessageDialog(null, "Please fill the form");
 				}
-else {
+				else {
 				try {
 					Connection con = DBConnect.connect();
 					
