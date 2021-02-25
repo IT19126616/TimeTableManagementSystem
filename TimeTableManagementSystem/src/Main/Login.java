@@ -1,7 +1,9 @@
 package Main;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -51,9 +53,12 @@ public class Login {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		
 		frame.setBounds(350, 90, 1350, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setLocationRelativeTo(null);
+
 		
 		textField = new JTextField();
 		textField.setBounds(515, 295, 587, 85);

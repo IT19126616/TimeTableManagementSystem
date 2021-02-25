@@ -1,10 +1,12 @@
 package Member4;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.SystemColor;
 
 import javax.swing.JFrame;
 
-public class View_Locations {
+public class ViewRooms {
 
 	private JFrame frame;
 
@@ -15,7 +17,7 @@ public class View_Locations {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					View_Locations window = new View_Locations();
+					ViewRooms window = new ViewRooms();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -27,7 +29,7 @@ public class View_Locations {
 	/**
 	 * Create the application.
 	 */
-	public View_Locations() {
+	public ViewRooms() {
 		initialize();
 	}
 
@@ -36,8 +38,14 @@ public class View_Locations {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(350, 90, 1350, 900);
+		frame.setResizable(false);
+		frame.getContentPane().setBackground(SystemColor.inactiveCaptionBorder);
+		frame.setBackground(Color.YELLOW);
+		frame.setTitle("Add Location");		
+
+		frame.setBounds(100, 40, 1350, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 	}
 
 }
