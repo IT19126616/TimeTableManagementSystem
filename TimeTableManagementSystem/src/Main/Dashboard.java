@@ -3,6 +3,8 @@ package Main;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class Dashboard {
 
@@ -38,6 +40,7 @@ public class Dashboard {
 		frame = new JFrame();
 		frame.setBounds(350, 90, 1350, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 	}
 
 }
