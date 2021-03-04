@@ -9,14 +9,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+
+import dbConnect.DBConnect;
+
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 
 public class AddLocation {
@@ -64,9 +70,7 @@ public class AddLocation {
 		frameAddLocation.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameAddLocation.getContentPane().setLayout(null);
 		
-
 	
-		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 1344, 80);
 		panel.setBackground(Color.BLACK);
@@ -91,6 +95,13 @@ public class AddLocation {
 		panel_1.add(btnAddLocation);
 		
 		JButton btnManageLocation = new JButton("Manage Location");
+		btnManageLocation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ManageLocations ml = new ManageLocations();
+				ManageLocations.main(null);
+				frameAddLocation.setVisible(false);	
+			}
+		});
 		btnManageLocation.setBounds(12, 383, 238, 50);
 		btnManageLocation.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_1.add(btnManageLocation);
@@ -98,6 +109,9 @@ public class AddLocation {
 		JButton btnAddSessionRooms = new JButton("Add Session Rooms");
 		btnAddSessionRooms.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				AddSessionRooms ar = new AddSessionRooms();
+				AddSessionRooms.main(null);
+				frameAddLocation.setVisible(false);	
 			}
 		});
 		btnAddSessionRooms.setBounds(12, 446, 238, 50);
@@ -105,11 +119,25 @@ public class AddLocation {
 		panel_1.add(btnAddSessionRooms);
 		
 		JButton btnManageSessionRooms = new JButton("Manage Session Rooms");
+		btnManageSessionRooms.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewRooms msr = new ViewRooms();
+				ViewRooms.main(null);
+				frameAddLocation.setVisible(false);
+			}
+		});
 		btnManageSessionRooms.setBounds(10, 520, 240, 50);
 		btnManageSessionRooms.setFont(new Font("Tahoma", Font.BOLD, 17));
 		panel_1.add(btnManageSessionRooms);
 		
 		JButton btnViewGroups_1 = new JButton("<<Back");
+		btnViewGroups_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main4 back = new Main4();
+				Main4.main(null);
+				frameAddLocation.setVisible(false);
+			}
+		});
 		btnViewGroups_1.setBounds(12, 616, 238, 50);
 		btnViewGroups_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_1.add(btnViewGroups_1);
@@ -171,16 +199,6 @@ public class AddLocation {
 		frameAddLocation.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
-		JButton btnClear = new JButton("Clear");
-		btnClear.setBounds(268, 42, 238, 50);
-		panel_3.add(btnClear);
-		btnClear.setFont(new Font("Tahoma", Font.BOLD, 20));
-		
-		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(518, 42, 238, 50);
-		panel_3.add(btnSave);
-		btnSave.setFont(new Font("Tahoma", Font.BOLD, 20));
-		
 		txtCapacity = new JTextField();
 		txtCapacity.setBounds(538, 547, 258, 40);
 		frameAddLocation.getContentPane().add(txtCapacity);
@@ -195,6 +213,96 @@ public class AddLocation {
 		rdbtnLab.setBounds(538, 482, 290, 40);
 		rdbtnLab.setFont(new Font("Tahoma", Font.BOLD, 20));
 		frameAddLocation.getContentPane().add(rdbtnLab);
+		
+		
+		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtBuildingName.setText("");
+				txtRoomName.setText("");
+				txtCapacity.setText("");		
+			}
+		});
+		btnClear.setBounds(268, 42, 238, 50);
+		panel_3.add(btnClear);
+		btnClear.setFont(new Font("Tahoma", Font.BOLD, 20));
+		
+		
+		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//validations
+	
+				String bName= txtBuildingName.getText();
+				String rName= txtRoomName.getText();
+				String cap = txtCapacity.getText();
+				
+				if(txtBuildingName.getText().equals("")||txtRoomName.getText().equals("") ||txtCapacity.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Please fill the form");			
+				}else {
+					//Values to variables
+				
+					String buildingName = txtBuildingName.getText();
+					String roomName = txtRoomName.getText();
+					String type = null;
+					int capacity =  Integer.parseInt(txtCapacity.getText());
+
+					if(capacity > 120 ) {
+						capacity = 0;
+						JOptionPane.showMessageDialog(null, "Maximum Capacity is 120");			
+					}else if(capacity< 0) {
+						capacity = 0;
+						JOptionPane.showMessageDialog(null, "Capacity Should not be 0. Please enter a valid capacity");		
+						
+					}else {
+						try {
+							
+							
+						}catch(NumberFormatException nuEx) {
+							JOptionPane.showMessageDialog(null, "Please enter a number to capacity");			
+							System.out.println("Please enter a number to capacity");
+						}
+					
+						 // If condition to check if jRadioButton2 is selected. 
+		                if (rdbtnLectureHall.isSelected()) { 
+		                	type = "LectureHall";
+		                } 
+		  
+		                else if (rdbtnLab.isSelected()) { 
+		                    type = "Laboratory"; 
+		                } 
+		                else { 
+		                	JOptionPane.showMessageDialog(panel, "Please select a Type", "Warning",JOptionPane.WARNING_MESSAGE);
+		                } 
+						
+						//Query to connect db
+						try {
+							Connection con = DBConnect.connect();
+
+
+		                    String query = "INSERT INTO location values(null,'" +buildingName + "','" + roomName + "','" + type + "','"+ capacity +"')";
+		                    Statement sta = con.createStatement();
+		                    sta.executeUpdate(query);
+							JOptionPane.showMessageDialog(null, "Data inserted Successfully");		
+		                    con.close();
+		                    
+						}catch(Exception insertDB) {
+							insertDB.printStackTrace();
+						}
+						
+					}
+					
+					
+					
+					
+				}
+				
+			}
+		});
+		btnSave.setBounds(518, 42, 238, 50);
+		panel_3.add(btnSave);
+		btnSave.setFont(new Font("Tahoma", Font.BOLD, 20));
+		
 		
 		
 	}	

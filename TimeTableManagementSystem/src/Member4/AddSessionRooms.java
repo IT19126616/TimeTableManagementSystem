@@ -16,6 +16,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.JList;
+import javax.swing.JComboBox;
 
 public class AddSessionRooms {
 
@@ -54,10 +56,12 @@ public class AddSessionRooms {
 		frame.setBackground(Color.YELLOW);
 		frame.setTitle("Add Location");		
 
+		// frame.setSize(1400, 2200);
 		frame.setBounds(100, 40, 1350, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+	//	frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 	
 		
@@ -80,11 +84,26 @@ public class AddSessionRooms {
 		panel_1.setLayout(null);
 		
 		JButton btnAddLocation = new JButton("Add Location");
-		btnAddLocation.setBounds(12, 320, 252, 50);
+		btnAddLocation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddLocation al = new AddLocation();
+				AddLocation.main(null);
+				frame.setVisible(false);
+
+			}
+		});
+		btnAddLocation.setBounds(12, 320, 238, 50);
 		btnAddLocation.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_1.add(btnAddLocation);
 		
 		JButton btnManageLocation = new JButton("Manage Location");
+		btnManageLocation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ManageLocations ml = new ManageLocations();
+				ManageLocations.main(null);
+				frame.setVisible(false);	
+			}
+		});
 		btnManageLocation.setBounds(12, 383, 238, 50);
 		btnManageLocation.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_1.add(btnManageLocation);
@@ -94,16 +113,30 @@ public class AddSessionRooms {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAddSessionRooms.setBounds(12, 446, 238, 50);
+		btnAddSessionRooms.setBounds(12, 446, 252, 50);
 		btnAddSessionRooms.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_1.add(btnAddSessionRooms);
 		
 		JButton btnManageSessionRooms = new JButton("Manage Session Rooms");
+		btnManageSessionRooms.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewRooms msr = new ViewRooms();
+				ViewRooms.main(null);
+				frame.setVisible(false);
+			}
+		});
 		btnManageSessionRooms.setBounds(10, 520, 240, 50);
 		btnManageSessionRooms.setFont(new Font("Tahoma", Font.BOLD, 17));
 		panel_1.add(btnManageSessionRooms);
 		
 		JButton btnViewGroups_1 = new JButton("<<Back");
+		btnViewGroups_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main4 back = new Main4();
+				Main4.main(null);
+				frame.setVisible(false);
+			}
+		});
 		btnViewGroups_1.setBounds(12, 616, 238, 50);
 		btnViewGroups_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_1.add(btnViewGroups_1);
@@ -115,7 +148,7 @@ public class AddSessionRooms {
 		panel_1.add(lbli);
 		
 	
-		JLabel lblNewLabel_1 = new JLabel("Add Location");
+		JLabel lblNewLabel_1 = new JLabel("Add Session for Rooms");
 		lblNewLabel_1.setBounds(262, 93, 1082, 48);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 35));
@@ -127,27 +160,15 @@ public class AddSessionRooms {
 		separator.setBackground(SystemColor.controlText);
 		frame.getContentPane().add(separator);
 		
-		JLabel lblNewLabel_2 = new JLabel("Building Name");
-		lblNewLabel_2.setBounds(274, 268, 252, 25);
+		JLabel lblNewLabel_2 = new JLabel("Select Session");
+		lblNewLabel_2.setBounds(274, 268, 163, 25);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 20));
 		frame.getContentPane().add(lblNewLabel_2);
 		
-		JLabel lblNewLabel_2_1 = new JLabel("Room Name");
-		lblNewLabel_2_1.setBounds(274, 354, 252, 25);
+		JLabel lblNewLabel_2_1 = new JLabel("Select Room");
+		lblNewLabel_2_1.setBounds(272, 470, 134, 25);
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 		frame.getContentPane().add(lblNewLabel_2_1);
-		
-		
-		
-		JLabel lblNewLabel_2_1_1 = new JLabel("Room Type");
-		lblNewLabel_2_1_1.setBounds(274, 455, 281, 25);
-		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		frame.getContentPane().add(lblNewLabel_2_1_1);
-		
-		JLabel lblNewLabel_2_1_2 = new JLabel("Capacity");
-		lblNewLabel_2_1_2.setBounds(274, 554, 281, 25);
-		lblNewLabel_2_1_2.setFont(new Font("Tahoma", Font.BOLD, 20));
-		frame.getContentPane().add(lblNewLabel_2_1_2);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(262, 658, 1082, 124);
@@ -155,27 +176,34 @@ public class AddSessionRooms {
 		frame.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
-		JButton btnClear = new JButton("Clear");
+		JButton btnClear = new JButton("Submit");
 		btnClear.setBounds(268, 42, 238, 50);
 		panel_3.add(btnClear);
 		btnClear.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
-		JButton btnSave = new JButton("Save");
+		JButton btnSave = new JButton("Clear");
 		btnSave.setBounds(518, 42, 238, 50);
 		panel_3.add(btnSave);
 		btnSave.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(499, 462, 262, 33);
+		frame.getContentPane().add(comboBox);
 		
+		JRadioButton rdbtnMSR = new JRadioButton("Consecutive Sessions");
+		rdbtnMSR.setBounds(467, 274, 273, 33);
+		rdbtnMSR.setFont(new Font("Tahoma", Font.BOLD, 20));
+		frame.getContentPane().add(rdbtnMSR);
 		
-		JRadioButton rdbtnLectureHall = new JRadioButton("Lecture Hall");
-		rdbtnLectureHall.setFont(new Font("Tahoma", Font.BOLD, 20));
-		rdbtnLectureHall.setBounds(538, 436, 290, 33);
-		frame.getContentPane().add(rdbtnLectureHall);
+		JRadioButton rdbtnParallelSessions = new JRadioButton("Parrallel Sessions");
+		rdbtnParallelSessions.setBounds(786, 274, 255, 33);
+		rdbtnParallelSessions.setFont(new Font("Tahoma", Font.BOLD, 20));
+		frame.getContentPane().add(rdbtnParallelSessions);
 		
-		JRadioButton rdbtnLab = new JRadioButton("Laboratory");
-		rdbtnLab.setBounds(538, 482, 290, 40);
-		rdbtnLab.setFont(new Font("Tahoma", Font.BOLD, 20));
-		frame.getContentPane().add(rdbtnLab);
+		JRadioButton rdbtnNonOverlapping = new JRadioButton("Non Overlapping");
+		rdbtnNonOverlapping.setBounds(1070, 268, 207, 37);
+		rdbtnNonOverlapping.setFont(new Font("Tahoma", Font.BOLD, 20));
+		frame.getContentPane().add(rdbtnNonOverlapping);
 		
 		
 	}	

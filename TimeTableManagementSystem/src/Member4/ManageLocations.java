@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
@@ -16,8 +17,23 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import java.awt.ScrollPane;
+import javax.swing.table.DefaultTableModel;
+
+import dbConnect.DBConnect;
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.border.CompoundBorder;
 
 public class ManageLocations {
 
@@ -25,6 +41,8 @@ public class ManageLocations {
 	private JTextField txtMLBuildingName;
 	private JTextField txtMLRoomName;
 	private JTextField txtMLCapacity;
+	private JTable table;
+	private JTextField LocID;
 
 	/**
 	 * Launch the application.
@@ -83,6 +101,10 @@ public class ManageLocations {
 		JButton btnNewButton = new JButton("Add Location");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				AddLocation al = new AddLocation();
+				AddLocation.main(null);
+				frameManageLocation.setVisible(false);
+
 			}
 		});
 		btnNewButton.setBounds(12, 320, 238, 50);
@@ -92,6 +114,9 @@ public class ManageLocations {
 		JButton btnAddSessionRooms = new JButton("Add Session Rooms");
 		btnAddSessionRooms.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				AddSessionRooms ar = new AddSessionRooms();
+				AddSessionRooms.main(null);
+				frameManageLocation.setVisible(false);	
 			}
 		});
 		btnAddSessionRooms.setBounds(12, 446, 238, 50);
@@ -99,6 +124,13 @@ public class ManageLocations {
 		panel_1.add(btnAddSessionRooms);
 		
 		JButton btnManageSessionRooms = new JButton("Manage Session Rooms");
+		btnManageSessionRooms.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewRooms msr = new ViewRooms();
+				ViewRooms.main(null);
+				frameManageLocation.setVisible(false);
+			}
+		});
 		btnManageSessionRooms.setBounds(10, 520, 240, 50);
 		btnManageSessionRooms.setFont(new Font("Tahoma", Font.BOLD, 17));
 		panel_1.add(btnManageSessionRooms);
@@ -115,6 +147,9 @@ public class ManageLocations {
 		JButton btnViewGroups_1 = new JButton("<<Back");
 		btnViewGroups_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Main4 back = new Main4();
+				Main4.main(null);
+				frameManageLocation.setVisible(false);
 			}
 		});
 		btnViewGroups_1.setBounds(12, 616, 238, 50);
@@ -187,33 +222,195 @@ public class ManageLocations {
 		
 		txtMLRoomName = new JTextField();
 		txtMLRoomName.setBounds(186, 99, 218, 36);
+		txtMLRoomName.setFont(new Font("Tahoma", Font.BOLD, 20));		
 		panel_3.add(txtMLRoomName);
 		txtMLRoomName.setColumns(10);
 		
 		txtMLCapacity = new JTextField();
 		txtMLCapacity.setBounds(662, 99, 197, 36);
+		txtMLCapacity.setFont(new Font("Tahoma", Font.BOLD, 20));		
 		panel_3.add(txtMLCapacity);
 		txtMLCapacity.setColumns(10);
+		
+		LocID = new JTextField();
+		LocID.setEnabled(false);
+		LocID.setEditable(false);
+		LocID.setBackground(Color.WHITE);
+		LocID.setBounds(186, 175, 96, 19);
+		panel_3.add(LocID);
+		LocID.setColumns(10);
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBackground(SystemColor.inactiveCaption);
 		panel_4.setBounds(274, 167, 899, 417);
 		frameManageLocation.getContentPane().add(panel_4);
 		
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportBorder(new CompoundBorder());
+		scrollPane.setBounds(274, 167, 899, 417);
+	//	frameManageLocation.getContentPane().add(scrollPane);
+		table = new JTable();
+	
+		//Table Selection
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int selectedRow=table.getSelectedRow();		
+				LocID.setText(table.getValueAt(selectedRow, 0).toString());
+				txtMLBuildingName.setText(table.getValueAt(selectedRow, 1).toString());
+				txtMLRoomName.setText(table.getValueAt(selectedRow, 2).toString());
+				txtMLCapacity.setText(table.getValueAt(selectedRow, 4).toString());
+			
+			}
+		});
+		
+		
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"LocationID", "Building Name", "Room Name", "Type", "Capacity"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Object.class, Object.class, Object.class, Object.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+				 false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPane.setViewportView(table);
+		panel_4.add(scrollPane);
+		
+		
+		
 		JButton btnUpdate = new JButton("Update");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String bName= txtMLBuildingName.getText();
+				String rName= txtMLRoomName.getText();
+				String cap = txtMLCapacity.getText();
+				
+				
+				if(txtMLBuildingName.getText().equals("")||txtMLRoomName.getText().equals("") ||txtMLCapacity.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Please fill the form");			
+				}else {
+					//Query to connect db
+					int i=table.getSelectedRow();
+					DefaultTableModel model=(DefaultTableModel)table.getModel();
+					
+					if(i>=1) {
+						model.setValueAt( LocID.getText() , i, 1);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error!!!");
+					}
+					
+					//Query to connect db
+					try {
+						Connection con = DBConnect.connect();
+
+/* PreparedStatement ps = null;
+    try {
+					Connection con = DBConnect.connect();
+					
+					String query="Update main set noOfWorkingDays='"+textField.getText()+"',monday='"+chckbxNewCheckBox.getText()+"',tuesday='"+chckbxTuesday.getText()+"',wednesday='"+chckbxWednesday.getText()+"',thursday='"+chckbxThursday.getText()+"',friday='"+chckbxFriday.getText()+"',saturday='"+chckbxSaturday.getText()+"',sunday='"+chckbxSunday.getText()+"',hours='"+textField_1.getText()+"',minutes='"+textField_2.getText()+"' where mid='"+textField_3.getText()+"' ";
+					PreparedStatement pst=con.prepareStatement(query);
+					pst.executeUpdate();
+					JOptionPane.showMessageDialog(null, "Data Updated");
+					pst.close();
+					
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+      }*/		
+
+						String query="Update location set buildingName='"+txtMLBuildingName.getText()+"', roomName='"+txtMLRoomName.getText()+"',type='"+txtMLRoomName.getText()+"',capacity='"+txtMLCapacity.getText()+"' where locationID='"+LocID.getText()+"' ";
+						PreparedStatement pst=con.prepareStatement(query);
+						pst.executeUpdate();
+						JOptionPane.showMessageDialog(null, "Data Updated");
+						pst.close();
+						
+					}
+					catch(Exception updateTable) {
+						updateTable.printStackTrace();
+					}
+						
+						
+						
+					
+				}
+			}
+		});
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnUpdate.setBounds(1185, 245, 139, 50);
 		frameManageLocation.getContentPane().add(btnUpdate);
 		
 		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Connection con = DBConnect.connect();
+					String query="Delete from location where locationID='"+LocID.getText()+"'";
+					PreparedStatement pst=con.prepareStatement(query);
+					pst.execute();
+					
+					JOptionPane.showMessageDialog(null, "Data Deleted Successfully");
+					pst.close();
+					
+					}
+					catch(Exception deleteRecord) {
+						deleteRecord.printStackTrace();
+						
+					}
+				
+			}
+		});
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnDelete.setBounds(1185, 304, 139, 50);
 		frameManageLocation.getContentPane().add(btnDelete);
 		
 		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtMLBuildingName.setText("");
+				txtMLRoomName.setText("");
+				txtMLCapacity.setText("");	
+			}
+		});
 		btnClear.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnClear.setBounds(1185, 367, 139, 50);
 		frameManageLocation.getContentPane().add(btnClear);
+		
+		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Connection con = DBConnect.connect();
+					
+					String query="select * from location ";
+					PreparedStatement pst=con.prepareStatement(query);
+					ResultSet rs=pst.executeQuery();
+					table.setModel(DbUtils.resultSetToTableModel(rs));
+					
+				}
+				catch(Exception loadTable) {
+					loadTable.printStackTrace();
+				}
+			}
+		});
+		btnRefresh.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		btnRefresh.setBounds(1191, 212, 85, 21);
+		frameManageLocation.getContentPane().add(btnRefresh);
 	 
 	    
 	}
