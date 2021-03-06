@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -49,7 +51,21 @@ public class Main4 {
 		btnAddLocation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddLocation al = new AddLocation();
-				AddLocation.main(null);
+				try {
+					AddLocation.main(null);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InstantiationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IllegalAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				frame.setVisible(false);
 			}
 		});
@@ -71,7 +87,21 @@ public class Main4 {
 		btnAddSessionRooms.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddSessionRooms ar = new AddSessionRooms();
-				AddSessionRooms.main(null);
+				try {
+					AddSessionRooms.main(null);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InstantiationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IllegalAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				frame.setVisible(false);	
 			}
 		});
@@ -82,7 +112,21 @@ public class Main4 {
 		btnManageSessionRooms.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ViewRooms msr = new ViewRooms();
-				ViewRooms.main(null);
+				try {
+					ViewRooms.main(null);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InstantiationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IllegalAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				frame.setVisible(false);
 			}
 		});
