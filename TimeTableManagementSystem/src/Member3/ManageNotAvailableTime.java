@@ -14,19 +14,48 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import dbConnect.DBConnect;
+import net.proteanit.sql.DbUtils;
+
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ManageNotAvailableTime {
 
 	private JFrame frmAddNotAvailbleTime;
 	private JTable table;
+	private JTextField textField_9;
+	private JTextField textField_10;
+	private JTextField textField;
+	private JTextField textField_5;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_6;
+	private JTextField textField_7;
+	private JTextField textField_8;
 
 	/**
 	 * Launch the application.
+	 * @throws UnsupportedLookAndFeelException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -51,7 +80,7 @@ public class ManageNotAvailableTime {
 	 */
 	private void initialize() {
 		frmAddNotAvailbleTime = new JFrame();
-		frmAddNotAvailbleTime.getContentPane().setBackground(SystemColor.inactiveCaptionBorder);
+		frmAddNotAvailbleTime.getContentPane().setBackground(new Color(21,25,28));
 		frmAddNotAvailbleTime.setBackground(Color.YELLOW);
 		frmAddNotAvailbleTime.setResizable(false);
 		frmAddNotAvailbleTime.setTitle("Manage Available Time");
@@ -68,29 +97,35 @@ public class ManageNotAvailableTime {
 		JLabel lblNewLabel = new JLabel("Time Table Management System");
 		lblNewLabel.setBounds(261, 5, 822, 61);
 		panel.add(lblNewLabel);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 50));
-		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 50));
+		lblNewLabel.setForeground(new Color(169, 224, 49));
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 78, 262, 787);
-		panel_1.setBackground(Color.BLACK);
+		panel_1.setBounds(0, 77, 262, 794);
+		panel_1.setBackground(new Color(51, 51, 51));
 		frmAddNotAvailbleTime.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Add Not Availble Time");
 		btnNewButton.setBounds(12, 320, 240, 50);
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnNewButton.setFont(new Font("Trebuchet MS", Font.BOLD, 19));
 		panel_1.add(btnNewButton);
+		btnNewButton.setForeground(new Color(21, 25, 28));
+		btnNewButton.setBackground(new Color(152, 201, 45));
 		
 		JButton btnManageGroups = new JButton("Manage Not Available Time");
 		btnManageGroups.setBounds(12, 383, 252, 50);
-		btnManageGroups.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnManageGroups.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		panel_1.add(btnManageGroups);
+		btnManageGroups.setForeground(new Color(21, 25, 28));
+		btnManageGroups.setBackground(new Color(152, 201, 45));
 		
 		JButton btnViewGroups_1 = new JButton("<<Back");
 		btnViewGroups_1.setBounds(12, 724, 238, 50);
 		btnViewGroups_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_1.add(btnViewGroups_1);
+		btnViewGroups_1.setForeground(new Color(21, 25, 28));
+		btnViewGroups_1.setBackground(new Color(152, 201, 45));
 		
 		JLabel lbli = new JLabel("New label");
 		lbli.setBounds(0, 13, 264, 256);
@@ -99,9 +134,10 @@ public class ManageNotAvailableTime {
 		panel_1.add(lbli);
 		
 		JLabel lblNewLabel_1 = new JLabel("Manage Not Available Time");
+		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setBounds(262, 93, 1082, 48);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 35));
+		lblNewLabel_1.setFont(new Font("Trebuchet MS", Font.BOLD, 35));
 		frmAddNotAvailbleTime.getContentPane().add(lblNewLabel_1);
 		
 		JSeparator separator = new JSeparator();
@@ -111,40 +147,221 @@ public class ManageNotAvailableTime {
 		frmAddNotAvailbleTime.getContentPane().add(separator);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(262, 658, 1082, 124);
-		panel_3.setBackground(Color.LIGHT_GRAY);
+		panel_3.setBounds(262, 722, 1082, 124);
+		panel_3.setBackground(new Color(0, 0, 0));
 		frmAddNotAvailbleTime.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
 		JButton btnClear = new JButton("Update");
-		btnClear.setBounds(137, 42, 238, 50);
+		btnClear.setBounds(289, 42, 238, 50);
 		panel_3.add(btnClear);
-		btnClear.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnClear.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		btnClear.setForeground(new Color(21, 25, 28));
+		btnClear.setBackground(new Color(152, 201, 45));
 		
 		JButton btnSave = new JButton("Delete");
-		btnSave.setBounds(469, 42, 238, 50);
+		btnSave.setBounds(556, 42, 238, 50);
 		panel_3.add(btnSave);
-		btnSave.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnSave.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		btnSave.setForeground(new Color(21, 25, 28));
+		btnSave.setBackground(new Color(152, 201, 45));
 		
 		JButton btnClear_1 = new JButton("Clear");
-		btnClear_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnClear_1.setBounds(789, 42, 238, 50);
+		btnClear_1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		btnClear_1.setBounds(820, 42, 238, 50);
 		panel_3.add(btnClear_1);
+		btnClear_1.setForeground(new Color(21, 25, 28));
+		btnClear_1.setBackground(new Color(152, 201, 45));
+		
+		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Connection con = DBConnect.connect();
+					
+					String query="select * from timeAlloLecture ";
+					PreparedStatement pst=con.prepareStatement(query);
+					ResultSet rs=pst.executeQuery();
+					table.setModel(DbUtils.resultSetToTableModel(rs));
+					
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		btnRefresh.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		btnRefresh.setBounds(21, 42, 238, 50);
+		panel_3.add(btnRefresh);
+		btnRefresh.setForeground(new Color(21, 25, 28));
+		btnRefresh.setBackground(new Color(152, 201, 45));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(272, 166, 1062, 481);
+		scrollPane.setBounds(272, 166, 1062, 271);
 		frmAddNotAvailbleTime.getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+                int selectedRow=table.getSelectedRow();
+				
+                textField_10.setText(table.getValueAt(selectedRow, 0).toString());
+                textField_5.setText(table.getValueAt(selectedRow, 1).toString());
+                textField_1.setText(table.getValueAt(selectedRow, 2).toString());
+                textField_7.setText(table.getValueAt(selectedRow, 3).toString());
+                textField_8.setText(table.getValueAt(selectedRow, 4).toString());
+                textField_9.setText(table.getValueAt(selectedRow, 5).toString());
+                textField.setText(table.getValueAt(selectedRow, 6).toString());
+                textField_2.setText(table.getValueAt(selectedRow, 7).toString());
+                textField_6.setText(table.getValueAt(selectedRow, 8).toString());
+
+			}
+		});
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"Lecturer", "Group", "SubGroup", "SessionSignature", "Room", "Day", "StartTime", "EndTime"
 			}
 		));
-		table.setFont(new Font("Tahoma", Font.BOLD, 12));
+		table.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
 		scrollPane.setViewportView(table);
+		
+		JLabel lblLectimealloid = new JLabel("LecTimeAlloID");
+		lblLectimealloid.setForeground(new Color(169, 224, 49));
+		lblLectimealloid.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblLectimealloid.setBounds(274, 472, 167, 25);
+		frmAddNotAvailbleTime.getContentPane().add(lblLectimealloid);
+		
+		JLabel lblLectureName = new JLabel("Lecture Name");
+		lblLectureName.setForeground(new Color(169, 224, 49));
+		lblLectureName.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblLectureName.setBounds(272, 529, 252, 25);
+		frmAddNotAvailbleTime.getContentPane().add(lblLectureName);
+		
+		JLabel lblGroup = new JLabel("Group");
+		lblGroup.setForeground(new Color(169, 224, 49));
+		lblGroup.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblGroup.setBounds(272, 583, 252, 25);
+		frmAddNotAvailbleTime.getContentPane().add(lblGroup);
+		
+		JLabel lblSubgroup = new JLabel("SubGroup");
+		lblSubgroup.setForeground(new Color(169, 224, 49));
+		lblSubgroup.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblSubgroup.setBounds(272, 637, 252, 25);
+		frmAddNotAvailbleTime.getContentPane().add(lblSubgroup);
+		
+		JLabel lblSessionSignature = new JLabel("Session Signature");
+		lblSessionSignature.setForeground(new Color(169, 224, 49));
+		lblSessionSignature.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblSessionSignature.setBounds(272, 687, 252, 25);
+		frmAddNotAvailbleTime.getContentPane().add(lblSessionSignature);
+		
+		JLabel lblDay = new JLabel("Day");
+		lblDay.setForeground(new Color(169, 224, 49));
+		lblDay.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblDay.setBounds(821, 473, 203, 25);
+		frmAddNotAvailbleTime.getContentPane().add(lblDay);
+		
+		JLabel lblSatrtTime = new JLabel("Start Time");
+		lblSatrtTime.setForeground(new Color(169, 224, 49));
+		lblSatrtTime.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblSatrtTime.setBounds(821, 529, 203, 25);
+		frmAddNotAvailbleTime.getContentPane().add(lblSatrtTime);
+		
+		JLabel lblEndtime = new JLabel("EndTime");
+		lblEndtime.setForeground(new Color(169, 224, 49));
+		lblEndtime.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblEndtime.setBounds(821, 583, 203, 25);
+		frmAddNotAvailbleTime.getContentPane().add(lblEndtime);
+		
+		JLabel lblRoom = new JLabel("Room");
+		lblRoom.setForeground(new Color(169, 224, 49));
+		lblRoom.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblRoom.setBounds(821, 636, 203, 25);
+		frmAddNotAvailbleTime.getContentPane().add(lblRoom);
+		
+		textField_9 = new JTextField();
+		textField_9.setForeground(Color.WHITE);
+		textField_9.setFont(new Font("Tahoma", Font.BOLD, 16));
+		textField_9.setColumns(10);
+		textField_9.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		textField_9.setBackground(new Color(51, 51, 51));
+		textField_9.setBounds(1039, 463, 274, 34);
+		frmAddNotAvailbleTime.getContentPane().add(textField_9);
+		
+		textField_10 = new JTextField();
+		textField_10.setEditable(false);
+		textField_10.setForeground(Color.WHITE);
+		textField_10.setFont(new Font("Tahoma", Font.BOLD, 16));
+		textField_10.setColumns(10);
+		textField_10.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		textField_10.setBackground(new Color(51, 51, 51));
+		textField_10.setBounds(525, 462, 274, 34);
+		frmAddNotAvailbleTime.getContentPane().add(textField_10);
+		
+		textField = new JTextField();
+		textField.setForeground(Color.WHITE);
+		textField.setFont(new Font("Tahoma", Font.BOLD, 16));
+		textField.setColumns(10);
+		textField.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		textField.setBackground(new Color(51, 51, 51));
+		textField.setBounds(1039, 517, 274, 34);
+		frmAddNotAvailbleTime.getContentPane().add(textField);
+		
+		textField_5 = new JTextField();
+		textField_5.setForeground(Color.WHITE);
+		textField_5.setFont(new Font("Tahoma", Font.BOLD, 16));
+		textField_5.setColumns(10);
+		textField_5.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		textField_5.setBackground(new Color(51, 51, 51));
+		textField_5.setBounds(525, 520, 274, 34);
+		frmAddNotAvailbleTime.getContentPane().add(textField_5);
+		
+		textField_1 = new JTextField();
+		textField_1.setForeground(Color.WHITE);
+		textField_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		textField_1.setColumns(10);
+		textField_1.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		textField_1.setBackground(new Color(51, 51, 51));
+		textField_1.setBounds(525, 572, 274, 34);
+		frmAddNotAvailbleTime.getContentPane().add(textField_1);
+		
+		textField_2 = new JTextField();
+		textField_2.setForeground(Color.WHITE);
+		textField_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		textField_2.setColumns(10);
+		textField_2.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		textField_2.setBackground(new Color(51, 51, 51));
+		textField_2.setBounds(1039, 574, 274, 34);
+		frmAddNotAvailbleTime.getContentPane().add(textField_2);
+		
+		textField_6 = new JTextField();
+		textField_6.setForeground(Color.WHITE);
+		textField_6.setFont(new Font("Tahoma", Font.BOLD, 16));
+		textField_6.setColumns(10);
+		textField_6.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		textField_6.setBackground(new Color(51, 51, 51));
+		textField_6.setBounds(1039, 625, 274, 34);
+		frmAddNotAvailbleTime.getContentPane().add(textField_6);
+		
+		textField_7 = new JTextField();
+		textField_7.setForeground(Color.WHITE);
+		textField_7.setFont(new Font("Tahoma", Font.BOLD, 16));
+		textField_7.setColumns(10);
+		textField_7.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		textField_7.setBackground(new Color(51, 51, 51));
+		textField_7.setBounds(525, 628, 274, 34);
+		frmAddNotAvailbleTime.getContentPane().add(textField_7);
+		
+		textField_8 = new JTextField();
+		textField_8.setForeground(Color.WHITE);
+		textField_8.setFont(new Font("Tahoma", Font.BOLD, 16));
+		textField_8.setColumns(10);
+		textField_8.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		textField_8.setBackground(new Color(51, 51, 51));
+		textField_8.setBounds(525, 677, 274, 34);
+		frmAddNotAvailbleTime.getContentPane().add(textField_8);
 	 
 	    
 	}
