@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
@@ -31,6 +32,8 @@ import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+
 import javax.swing.JScrollBar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -305,6 +308,44 @@ public class ConsecutiveSessions {
 		panel_3_1_1.add(btnMakeSession);
 		
 		JButton btnManageGroups_2_1 = new JButton("Add Session");
+		btnManageGroups_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String session= textField_2.getText();
+				
+				
+				
+				
+				 try {
+					 Connection con = DBConnect.connect();
+
+	                    String query = "INSERT INTO consecutiveSession values(null, '" + session + "')";
+
+	                    Statement sta = con.createStatement();
+	                    int x = sta.executeUpdate(query);
+	                    if (x == 0) {
+	                        JOptionPane.showMessageDialog(btnManageGroups_2_1, "This is alredy exist");
+	                    } else {
+	                        JOptionPane.showMessageDialog(btnManageGroups_2_1,
+	                            "Session is Successfully added!");
+	                    }
+	                    con.close();
+	                } catch (Exception exception) {
+	                    exception.printStackTrace();
+	                	
+	                }
+				
+				
+				
+			}
+			
+			
+			
+			
+			
+			
+			
+		});
 		btnManageGroups_2_1.setBounds(1136, 804, 196, 48);
 		frmAddStudentGroups.getContentPane().add(btnManageGroups_2_1);
 		btnManageGroups_2_1.setForeground(new Color(21, 25, 28));

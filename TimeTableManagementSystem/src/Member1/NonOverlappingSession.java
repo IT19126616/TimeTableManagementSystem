@@ -6,12 +6,14 @@ import java.awt.Font;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -234,6 +236,42 @@ public class NonOverlappingSession {
 		panel_3_1_1.add(btnMakeSession);
 		
 		JButton btnManageGroups_2_1 = new JButton("Add Session");
+		btnManageGroups_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+
+				String session= textField.getText();
+				
+				
+				
+				
+				 try {
+					 Connection con = DBConnect.connect();
+
+	                    String query = "INSERT INTO nonOverlapping values(null, '" + session + "')";
+
+	                    Statement sta = con.createStatement();
+	                    int x = sta.executeUpdate(query);
+	                    if (x == 0) {
+	                        JOptionPane.showMessageDialog(btnManageGroups_2_1, "This is alredy exist");
+	                    } else {
+	                        JOptionPane.showMessageDialog(btnManageGroups_2_1,
+	                            "Session is Successfully added!");
+	                    }
+	                    con.close();
+	                } catch (Exception exception) {
+	                    exception.printStackTrace();
+	                	
+	                }
+				
+				
+				
+				
+				
+				
+				
+			}
+		});
 		btnManageGroups_2_1.setForeground(new Color(21, 25, 28));
 		btnManageGroups_2_1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		btnManageGroups_2_1.setFocusPainted(false);
