@@ -113,6 +113,22 @@ public class AddTags {
 		btnNewButton.setFocusPainted(false);
 		
 		JButton btnManageGroups = new JButton("Manage Tags");
+		btnManageGroups.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				ManageTags itm = new ManageTags();
+				try {
+					ManageTags.main(null);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frmAddStudentGroups.setVisible(false);
+				
+			}
+		});
 		btnManageGroups.setBounds(12, 383, 238, 50);
 		
 		panel_1.add(btnManageGroups);

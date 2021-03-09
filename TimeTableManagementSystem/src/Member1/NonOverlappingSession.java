@@ -126,6 +126,20 @@ public class NonOverlappingSession {
 		panel_1.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Consecutive ");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ConsecutiveSessions itm = new ConsecutiveSessions();
+				try {
+					ConsecutiveSessions.main(null);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frmAddStudentGroups.setVisible(false);
+			}
+		});
 		btnNewButton.setBounds(12, 320, 238, 50);
 		btnNewButton.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		panel_1.add(btnNewButton);
@@ -138,6 +152,22 @@ public class NonOverlappingSession {
 		btnNewButton.setFocusPainted(false);
 		
 		JButton btnManageGroups = new JButton("Parallel");
+		btnManageGroups.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ParallelSession itm = new ParallelSession();
+				try {
+					ParallelSession.main(null);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frmAddStudentGroups.setVisible(false);
+				
+				
+			}
+		});
 		btnManageGroups.setBounds(12, 383, 238, 50);
 		
 		panel_1.add(btnManageGroups);

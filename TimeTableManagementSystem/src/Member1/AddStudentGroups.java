@@ -130,6 +130,21 @@ public class AddStudentGroups {
 		btnNewButton.setFocusPainted(false);
 		
 		JButton btnManageGroups = new JButton("Manage Groups");
+		btnManageGroups.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ManageStudentGroups itm = new ManageStudentGroups();
+				try {
+					ManageStudentGroups.main(null);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frmAddStudentGroups.setVisible(false);
+				
+			}
+		});
 		btnManageGroups.setBounds(12, 383, 238, 50);
 		
 		panel_1.add(btnManageGroups);

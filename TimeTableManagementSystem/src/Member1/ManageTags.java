@@ -133,6 +133,21 @@ private JTextField TagName;
 		panel_1.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Add Tags");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				AddTags itm = new AddTags();
+				try {
+					AddTags.main(null);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frmAddStudentGroups.setVisible(false);
+				
+			}
+		});
 		btnNewButton.setBounds(12, 320, 238, 50);
 		btnNewButton.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		panel_1.add(btnNewButton);

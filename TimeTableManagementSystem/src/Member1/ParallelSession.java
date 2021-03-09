@@ -144,6 +144,21 @@ public class ParallelSession {
 		panel_1.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Consecutive ");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ConsecutiveSessions itm = new ConsecutiveSessions();
+				try {
+					ConsecutiveSessions.main(null);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frmAddStudentGroups.setVisible(false);
+				
+			}
+		});
 		btnNewButton.setBounds(12, 320, 238, 50);
 		btnNewButton.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		panel_1.add(btnNewButton);
@@ -186,6 +201,21 @@ public class ParallelSession {
 		panel_1.add(lbli);
 		
 		JButton btnManageGroups_1 = new JButton("NonOverlapping");
+		btnManageGroups_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				NonOverlappingSession itm = new NonOverlappingSession();
+				try {
+					NonOverlappingSession.main(null);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frmAddStudentGroups.setVisible(false);
+				
+			}
+		});
 		btnManageGroups_1.setForeground(new Color(21, 25, 28));
 		btnManageGroups_1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		btnManageGroups_1.setFocusPainted(false);

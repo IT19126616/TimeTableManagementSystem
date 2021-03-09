@@ -131,6 +131,22 @@ public class ManageStudentGroups {
 		panel_1.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Add Groups");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+
+				AddStudentGroups itm = new AddStudentGroups();
+				try {
+					AddStudentGroups.main(null);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frmAddStudentGroups.setVisible(false);
+			}
+		});
 		btnNewButton.setBounds(12, 320, 238, 50);
 		btnNewButton.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		panel_1.add(btnNewButton);
@@ -143,6 +159,13 @@ public class ManageStudentGroups {
 		btnNewButton.setFocusPainted(false);
 		
 		JButton btnManageGroups = new JButton("Manage Groups");
+		btnManageGroups.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+			}
+		});
 		btnManageGroups.setBounds(12, 383, 252, 50);
 		
 		panel_1.add(btnManageGroups);
