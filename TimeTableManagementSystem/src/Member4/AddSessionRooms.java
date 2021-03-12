@@ -6,7 +6,14 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,6 +26,9 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.LineBorder;
+
+import dbConnect.DBConnect;
+
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
@@ -26,6 +36,11 @@ import javax.swing.JComboBox;
 public class AddSessionRooms {
 
 	private JFrame frame;
+	private JRadioButton rdbtnConsecutive; 
+	private JRadioButton rdbtnParallelSessions;
+	private JRadioButton rdbtnNonOverlapping;
+	private JComboBox rooms_1;
+	private JComboBox rooms;
 
 	/**
 	 * Launch the application.
@@ -51,8 +66,120 @@ public class AddSessionRooms {
 	/**
 	 * Create the application.
 	 */
+	
+	//method to fill comboBox sessions ********
+	public void fillComboBox1() {
+
+		try {
+					
+			
+			Connection con = DBConnect.connect();
+			
+			String query="select * from consecutiveSession";
+			PreparedStatement pst=con.prepareStatement(query);
+			ResultSet rs=pst.executeQuery();
+			//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+			//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+			while(rs.next()) {
+				String group=rs.getString("ConSessionSignature");
+			//	String subgroup=rs.getString("subGroupID");
+				
+				rooms_1.addItem(group);
+			//	comboBox_3.addItem(subgroup);
+			}
+			con.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}//method
+	
+	public void fillComboBox2() {
+
+		try {
+					
+			
+			Connection con = DBConnect.connect();
+			
+			String query="select * from parallel";
+			PreparedStatement pst=con.prepareStatement(query);
+			ResultSet rs=pst.executeQuery();
+			//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+			//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+			while(rs.next()) {
+				String group=rs.getString("parallelSessionSignature");
+			//	String subgroup=rs.getString("subGroupID");
+				
+				rooms_1.addItem(group);
+			//	comboBox_3.addItem(subgroup);
+			}
+			con.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}//method
+	
+	public void fillComboBox3() {
+
+		try {
+					
+			
+			Connection con = DBConnect.connect();
+			
+			String query="select * from nonOverlapping";
+			PreparedStatement pst=con.prepareStatement(query);
+			ResultSet rs=pst.executeQuery();
+			//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+			//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+			while(rs.next()) {
+				String group=rs.getString("nonOverlappingSignature");
+			//	String subgroup=rs.getString("subGroupID");
+				
+				rooms_1.addItem(group);
+			//	comboBox_3.addItem(subgroup);
+			}
+			con.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}//method
+	
+	
+	
+	//method to fill comboCox rooms **********
+	public void fillRoom() {
+
+		try {
+			Connection con = DBConnect.connect();
+			
+			String query="select * from location";
+			PreparedStatement pst=con.prepareStatement(query);
+			ResultSet rs=pst.executeQuery();
+			//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+			//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+			while(rs.next()) {
+				String group=rs.getString("roomName");
+			//	String subgroup=rs.getString("subGroupID");
+				
+				rooms.addItem(group);
+			//	comboBox_3.addItem(subgroup);
+			}
+			con.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}/**/
+	}//method
+	
+	
 	public AddSessionRooms() {
 		initialize();
+		
 	}
 
 	/**
@@ -64,16 +191,14 @@ public class AddSessionRooms {
 		frame.getContentPane().setBackground(new Color(21,25,28));
 		frame.setBackground(Color.YELLOW);
 		frame.setTitle("Add Session Rooms");		
-
 		// frame.setSize(1400, 2200);
 		frame.setBounds(100, 40, 1350, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		
+		frame.getContentPane().setLayout(null);	
 	//	frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-	
 		
+			
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 1344, 80);
 		panel.setBackground(Color.BLACK);
@@ -239,15 +364,55 @@ public class AddSessionRooms {
 		frame.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
-		JRadioButton rdbtnMSR = new JRadioButton("Consecutive Sessions");
-		rdbtnMSR.setBackground(new Color(51, 51, 51));
-		rdbtnMSR.setBounds(466, 274, 273, 33);
-		rdbtnMSR.setFont(new Font("Tahoma", Font.BOLD, 20));
-		frame.getContentPane().add(rdbtnMSR);
-		rdbtnMSR.setForeground(new Color(152, 201, 45));
-		rdbtnMSR.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		JLabel lblNewLabel_3 = new JLabel("Select Session");
+		lblNewLabel_3.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		lblNewLabel_3.setBounds(275, 386, 156, 33);
+		frame.getContentPane().add(lblNewLabel_3);
+		lblNewLabel_3.setForeground(new Color(152, 201, 45));
+	//ComboBox 1	
+		rooms_1 = new JComboBox();
+		rooms_1.setBounds(467, 388, 404, 37);
+		rooms_1.setModel(new DefaultComboBoxModel(new String[] {"Select Session.."}));
 		
-		JRadioButton rdbtnParallelSessions = new JRadioButton("Parrallel Sessions");
+		rooms_1.setForeground(Color.WHITE);
+		rooms_1.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));	
+		rooms_1.setBackground(new Color(51, 51, 51));
+		rooms_1.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		frame.getContentPane().add(rooms_1);
+		
+		/*
+		 * comboBox_1.setForeground(Color.WHITE);
+		comboBox_1.setBackground(new Color(51, 51, 51));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Select Room..."}));
+		comboBox_1.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
+		comboBox_1.setBounds(520, 383, 262, 38);
+		 */
+		
+		
+	//ComboBox 2	
+		rooms = new JComboBox();
+		/**/
+		rooms.setModel(new DefaultComboBoxModel(new String[] {"Select a Room.."}));
+		
+		rooms.setForeground(Color.WHITE);
+		rooms.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));	
+		rooms.setBackground(new Color(51, 51, 51));
+		rooms.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		 
+		rooms.setBackground(new Color(51, 51, 51));
+		rooms.setBounds(467, 501, 213, 33);
+		frame.getContentPane().add(rooms);
+		
+		
+		rdbtnConsecutive = new JRadioButton("Consecutive Sessions");
+		rdbtnConsecutive.setBackground(new Color(51, 51, 51));
+		rdbtnConsecutive.setBounds(466, 274, 273, 33);
+		rdbtnConsecutive.setFont(new Font("Tahoma", Font.BOLD, 20));
+		frame.getContentPane().add(rdbtnConsecutive);
+		rdbtnConsecutive.setForeground(new Color(152, 201, 45));
+		rdbtnConsecutive.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		
+		rdbtnParallelSessions = new JRadioButton("Parrallel Sessions");
 		rdbtnParallelSessions.setBackground(new Color(51, 51, 51));
 		rdbtnParallelSessions.setBounds(758, 274, 255, 33);
 		rdbtnParallelSessions.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -255,7 +420,7 @@ public class AddSessionRooms {
 		rdbtnParallelSessions.setForeground(new Color(152, 201, 45));
 		rdbtnParallelSessions.setBorder(new LineBorder(new Color(169, 224, 49), 3));
 		
-		JRadioButton rdbtnNonOverlapping = new JRadioButton("Non Overlapping");
+		rdbtnNonOverlapping = new JRadioButton("Non Overlapping");			
 		rdbtnNonOverlapping.setBackground(new Color(51, 51, 51));
 		rdbtnNonOverlapping.setBounds(1040, 272, 207, 37);
 		rdbtnNonOverlapping.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -263,59 +428,74 @@ public class AddSessionRooms {
 		rdbtnNonOverlapping.setForeground(new Color(152, 201, 45));
 		rdbtnNonOverlapping.setBorder(new LineBorder(new Color(169, 224, 49), 3));
 
-		//disabling radio buttons
+		//disabling radio buttons 
 		rdbtnParallelSessions.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-				rdbtnMSR.setSelected(false);
+				rdbtnConsecutive.setSelected(false);
 				rdbtnNonOverlapping.setSelected(false);
-
-		 //   	rdbtnMSR.setEnabled(false);
-         //   	rdbtnNonOverlapping.setEnabled(false);
-
-		    }
+				System.out.println("Combo2 selexted");
+				rooms_1.removeAllItems();
+				
+				fillComboBox2();
+				
+			//	rooms_1.setSelectedIndex(0);
+		    
+			    }
 		});
 		
 		rdbtnNonOverlapping.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-				rdbtnMSR.setSelected(false);
+				rdbtnConsecutive.setSelected(false);
 		    	rdbtnParallelSessions.setSelected(false);
+		    	System.out.println("Combo3 selexted");
+				rooms_1.removeAllItems();
 
-		 //   	rdbtnParallelSessions.setEnabled(false);
-		 //   	rdbtnMSR.setEnabled(false);
-
+				fillComboBox3();
 		    }
 		});
 		
-		rdbtnMSR.addActionListener(new ActionListener() {
+		rdbtnConsecutive.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	rdbtnParallelSessions.setSelected(false);
 		    	rdbtnNonOverlapping.setSelected(false);
+				System.out.println("Combo1 selexted");
+				rooms_1.removeAllItems();
 
-		  //  	rdbtnParallelSessions.setEnabled(false);
-		  //  	rdbtnNonOverlapping.setEnabled(false);
-
+				
+				fillComboBox1();
+	/*
+	 * 			rdbtnConsecutive.addItemListener(evt -> {
+	
+				    rooms_1.setEnabled(evt.getStateChange() == ItemEvent.SELECTED);
+				    
+				    try {
+						
+						
+						Connection con = DBConnect.connect();
+						
+						String query="select * from location";
+						PreparedStatement pst=con.prepareStatement(query);
+						ResultSet rs=pst.executeQuery();
+						//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+						//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+						while(rs.next()) {
+							String group=rs.getString("buildingName");
+						//	String subgroup=rs.getString("subGroupID");
+							
+							rooms_1.addItem(group);
+						//	comboBox_3.addItem(subgroup);
+						}
+						con.close();
+					}
+					catch(Exception el) {
+						el.printStackTrace();
+					}
+				    
+				}); */
 		    }
 		});
-		
-		JLabel lblNewLabel_3 = new JLabel("Select Session");
-		lblNewLabel_3.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
-		lblNewLabel_3.setBounds(275, 386, 156, 33);
-		frame.getContentPane().add(lblNewLabel_3);
-		lblNewLabel_3.setForeground(new Color(152, 201, 45));
-		
-		JComboBox session = new JComboBox();
-		session.setBounds(467, 388, 404, 37);
-		session.setBackground(new Color(51, 51, 51));
-		session.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-		frame.getContentPane().add(session);
-			
-		JComboBox rooms = new JComboBox();
-		rooms.setBackground(new Color(51, 51, 51));
-		rooms.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-		rooms.setBounds(467, 501, 213, 33);
-		frame.getContentPane().add(rooms);
-		rooms.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-	
+		//~disabling radio buttons ***
+/**/	
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -325,81 +505,98 @@ public class AddSessionRooms {
 				 * 3 select all rooms from session table >>>>. foreign key should be there to select relevant room for a consec, or parallel or non overl.
 				 * 4 insert to table room sessions
 				 */
-				
+			
 				String sessionType = null;
 				String session = null;
 				String room = null;
+				String Combosession = rooms_1.getSelectedItem().toString();
+				String Comboroom = rooms.getSelectedItem().toString();
+				String sessionSign = Combosession +" " + Comboroom;
 				
-				
-				
-				 // If condition to check if jRadioButton2 is selected. 
-                if (rdbtnMSR.isSelected()) { 
-                	sessionType = "Consecutive";
- 
-                	//set the combo box values
-                	
-                	//set the combo box rooms
-                	//check for the no of students in session with room capacity***************
-                	
-                } 
-  
-                else if (rdbtnParallelSessions.isSelected()) { 
-                	sessionType = "Parallel"; 
-                	//if one combo box selected disable other 2
-            		rdbtnMSR.setEnabled(false);
-            		rdbtnNonOverlapping.setEnabled(false);
-
-                	//set the combo box values
-                	//set the combo box rooms
-                	//check for the no of students in session with room capacity***************
-                	
-                } 
-                
-                else if (rdbtnNonOverlapping.isSelected()) { 
-                	sessionType = "Non overlapping"; 
-                	//if one combo box selected disable other 2
-            		rdbtnMSR.setEnabled(false);
-            		rdbtnParallelSessions.setEnabled(false);
-                	//set the combo box values
-                	//set the combo box rooms
-                	//check for the no of students in session with room capacity***************
-                	
-                	
-                	
-                } 
-                
-                else { 
-                	JOptionPane.showMessageDialog(panel, "Please select a Type", "Warning Select a Session ",JOptionPane.WARNING_MESSAGE);
-                } 
-				
+				//System.out.println(sessionSign);
+				if(rooms_1.getSelectedItem().toString().equals("") || rooms.getSelectedItem().toString().equals("") || rooms_1.getSelectedItem().toString().equals("Select Session..") ||  rooms.getSelectedItem().toString().equals("Select a Room..") ) {
+					JOptionPane.showMessageDialog(null, "Please fill the Data you want to save");			
+				}else {
+					
+					
+					 // If condition to check if jRadioButton2 is selected. 
+	                if (rdbtnConsecutive.isSelected()) { 
+	                	sessionType = "Consecutive";
+	                	System.out.println("Session type" + sessionType);
+	     
+	                	//set the combo box rooms
+	                	//check for the no of students in session with room capacity***************
+	                	
+	                }else if (rdbtnParallelSessions.isSelected()) { 
+	                	sessionType = "Parallel"; 
+	                
+	                	//set the combo box values
+	                	//set the combo box rooms
+	                	//check for the no of students in session with room capacity***************
+	                	
+	                } else if (rdbtnNonOverlapping.isSelected()) { 
+	                	sessionType = "Non overlapping"; 
+	                	
+	                	//set the combo box rooms
+	                	//check for the no of students in session with room capacity***************
+	                } else { 
+	                	JOptionPane.showMessageDialog(panel, "Please select a Type", "Warning Select a Session ",JOptionPane.WARNING_MESSAGE);
+	                } 
+	                
+	                //Query
+	   /*   */            try {
+						 Connection con = DBConnect.connect();
+	
+		                    String query = "INSERT INTO roomSession values(null, '" + Combosession + "','" + Comboroom + "','"+ sessionSign +"')";
+	
+		                    Statement sta = con.createStatement();
+		                    int x = sta.executeUpdate(query);
+		                    if (x == 0) {
+		                        JOptionPane.showMessageDialog(btnSave, "This is alredy exist");
+		                    } else {
+		                        JOptionPane.showMessageDialog(btnSave,
+		                            "Successfully added!!!");
+		                    }
+		                    con.close();
+		                } catch (Exception exception) {
+		                    exception.printStackTrace();
+		                	
+		                }     
+		
+				}//end of check if else
 				//check for null combo boxes
                 //insert into table use a flag
-				
-				
-				
-				
-				
-			}
+			
+			}//event closure
 		});
 		btnSave.setBounds(268, 42, 238, 50);
 		panel_3.add(btnSave);
 		btnSave.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		
+		
+		
 		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rooms_1.removeAllItems();
+				rooms_1.setModel(new DefaultComboBoxModel(new String[] {"Select Session.."}));
+				rdbtnConsecutive.setSelected(false);
+				rdbtnNonOverlapping.setSelected(false);
+        		rdbtnParallelSessions.setSelected(false);
+
+				rooms.setSelectedIndex(0);				
+			}
+		});
 		btnClear.setBounds(518, 42, 238, 50);
 		panel_3.add(btnClear);
 		btnClear.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		
-		JLabel lblNewLabel_2_1_1 = new JLabel("Select Tag");
-		lblNewLabel_2_1_1.setForeground(new Color(152, 201, 45));
-		lblNewLabel_2_1_1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
-		lblNewLabel_2_1_1.setBounds(272, 579, 134, 25);
-		frame.getContentPane().add(lblNewLabel_2_1_1);
+	
+		//combo box loading
+		//fillComboBox();
 		
-		JComboBox rooms_1 = new JComboBox();
-		rooms_1.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-		rooms_1.setBackground(new Color(51, 51, 51));
-		rooms_1.setBounds(467, 579, 213, 33);
-		frame.getContentPane().add(rooms_1);
+		//combo box loading room
+		fillRoom();
+		
 	}	
 }
