@@ -154,6 +154,8 @@ public class Statistic {
 	}
 
 	/**
+	 * 
+	 * 
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
