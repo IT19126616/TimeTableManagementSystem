@@ -29,6 +29,13 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import dbConnect.DBConnect;
 import net.proteanit.sql.DbUtils;
 
@@ -39,7 +46,10 @@ public class Statistic {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_6;
+	private int gSum, gSum2, gSum23, gSum24;
 	/**
 	 * Launch the application.
 	 */
@@ -48,6 +58,7 @@ public class Statistic {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+
 					Statistic window = new Statistic();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -57,6 +68,84 @@ public class Statistic {
 		});
 	}
 
+	public void setData() {
+
+		try {
+			Connection con = DBConnect.connect();
+	
+	//Query 1	Lec	
+			String query="select count (*) as allLoc from lecturers ";
+			PreparedStatement pst=con.prepareStatement(query);
+			ResultSet rs=pst.executeQuery();
+			
+			String sum = rs.getString("allLoc");
+			gSum = Integer.parseInt(sum);	
+			textField.setText(sum);
+
+	//Qery 2	group	
+			String query2="select count (*) as allLoc from studentGroups ";
+			PreparedStatement pst2=con.prepareStatement(query2);
+			ResultSet rs2=pst2.executeQuery();
+			String su2m = rs2.getString("allLoc");
+			gSum2 = Integer.parseInt(su2m);			
+			textField_1.setText(su2m);
+			
+	//!3	Subj
+			String query23="select count (*) as allLoc from subjects ";
+			PreparedStatement pst23=con.prepareStatement(query23);
+			ResultSet rs23=pst23.executeQuery();
+			String su2m3 = rs23.getString("allLoc");
+			gSum23 = Integer.parseInt(su2m3);			
+			textField_2.setText(su2m3);
+	
+	//Q4	rooms
+			String query24="select count(*) as allc from location ";
+			PreparedStatement pst24=con.prepareStatement(query24);
+			ResultSet rs24=pst24.executeQuery();
+			String su2m4 = rs24.getString("allc");
+			gSum24 = Integer.parseInt(su2m4);			
+			textField_3.setText(su2m4);
+	
+			System.out.println(gSum24);
+		}
+		catch(Exception load) {
+			load.printStackTrace();
+		}	
+	}//~setdata
+
+	public void setLatestData() {
+		try {
+			Connection con = DBConnect.connect();	
+	
+			//Lecturer
+			String lastLec ="SELECT lectureName FROM lecturers WHERE lid = (SELECT MAX(lid) FROM lecturers)";
+			PreparedStatement pst1 =con.prepareStatement(lastLec);
+			ResultSet rs1 =pst1.executeQuery();
+			String txtLastLec = rs1.getString("lectureName");
+			textField_4.setText(txtLastLec);
+			
+			//Subject
+	/*		String lastLec2 ="SELECT subName FROM subjects WHERE subID = (SELECT MAX(subID) FROM subjects)";
+			PreparedStatement pst12 =con.prepareStatement(lastLec2);
+			ResultSet rs12 =pst12.executeQuery();
+			String txtLastLec2 = rs12.getString("subName");
+			textField_5.setText(txtLastLec2);
+			
+			//Group
+			String lastLec3 ="SELECT buildingName FROM studentGroups WHERE stGroupID = (SELECT MAX(stGroupID) FROM studentGroups)";
+			PreparedStatement pst13 =con.prepareStatement(lastLec3);
+			ResultSet rs13 =pst13.executeQuery();
+			String txtLastLec3 = rs13.getString("groupID");
+			textField_6.setText(txtLastLec3);
+			
+						*/
+		}catch (Exception a) {
+			a.printStackTrace();
+		}
+	}//~setLatestData
+	
+
+	
 	/**
 	 * Create the application.
 	 */
@@ -77,6 +166,7 @@ public class Statistic {
 		frame.setBounds(100, 40, 1350, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 1344, 80);
@@ -155,48 +245,122 @@ public class Statistic {
 		separator.setBackground(Color.WHITE);
 		frame.getContentPane().add(separator);
 		
-		JLabel lblNewLabel_2 = new JLabel("Registerd Lecturers");
-		lblNewLabel_2.setBounds(272, 185, 200, 50);
+		JLabel lblNewLabel_2 = new JLabel("Registered Lecturers");
+		lblNewLabel_2.setBounds(298, 182, 200, 50);
 		lblNewLabel_2.setFont(new Font("Trebuchet MS", Font.BOLD, 20));lblNewLabel_2.setForeground(new Color(152, 201, 45));
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		textField = new JTextField();
-		textField.setBounds(462, 190, 50, 48);
+		textField.setBounds(553, 187, 50, 39);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblNewLabel_3 = new JLabel("Registerd Students");
-		lblNewLabel_3.setBounds(544, 185, 200, 50);
+		JLabel lblNewLabel_3 = new JLabel("Registered Student Groups");
+		lblNewLabel_3.setBounds(852, 182, 262, 50);
 		lblNewLabel_3.setFont(new Font("Trebuchet MS", Font.BOLD, 20));lblNewLabel_3.setForeground(new Color(152, 201, 45));
 		frame.getContentPane().add(lblNewLabel_3);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(724, 189, 50, 50);
+		textField_1.setBounds(1199, 191, 50, 39);
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
 		
 		JLabel lblNewLabel_4 = new JLabel("Registered Subjects");
-		lblNewLabel_4.setBounds(806, 185, 200, 50);
+		lblNewLabel_4.setBounds(298, 270, 200, 50);
 		lblNewLabel_4.setFont(new Font("Trebuchet MS", Font.BOLD, 20));lblNewLabel_4.setForeground(new Color(152, 201, 45));
 		frame.getContentPane().add(lblNewLabel_4);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(999, 188, 60, 52);
+		textField_2.setBounds(553, 268, 50, 39);
 		frame.getContentPane().add(textField_2);
 		textField_2.setColumns(10);
 		
-		JLabel lblNewLabel_5 = new JLabel("Registerd Rooms");
+		JLabel lblNewLabel_5 = new JLabel("Registered Rooms");
 		lblNewLabel_5.setFont(new Font("Trebuchet MS", Font.BOLD, 20));lblNewLabel_5.setForeground(new Color(152, 201, 45));
 
-		lblNewLabel_5.setBounds(1101, 185, 200, 50);
+		lblNewLabel_5.setBounds(852, 270, 200, 50);
 		frame.getContentPane().add(lblNewLabel_5);
 		
 		textField_3 = new JTextField();
-		textField_3.setBounds(1264, 185, 60, 53);
+		textField_3.setBounds(1199, 270, 50, 39);
 		frame.getContentPane().add(textField_3);
 		textField_3.setColumns(10);
+		
+		JButton btnStats = new JButton("Graphical Statistics");
+		btnStats.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnStats.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+				 dataset.setValue(gSum , "Lecturer", "Lecturer");
+				 dataset.setValue(gSum2 , "No.Of Students", "Student");
+				 dataset.setValue(gSum23 , "Subjects", "Subjects");
+				 dataset.setValue(gSum24 , "Rooms", "Rooms");
+				// dataset.setValue(12, "Buildings", "Buildings");
+				 
+				 JFreeChart chart = ChartFactory.createBarChart("Statistics of the System", " ", "Total", dataset,
+						 PlotOrientation.VERTICAL,false,true,false);
+				 
+				 chart.setBackgroundPaint(Color.white);
+				 chart.getTitle().setPaint(Color.blue);
+				 
+				 CategoryPlot p = chart.getCategoryPlot();
+				 p.setRangeGridlinePaint(Color.white);
+				 
+				 ChartFrame frame1 = new ChartFrame("Statistics", chart);
+	
+				frame1.setVisible(true);
+				frame1.setSize(500, 700);
+			
+			}
+		});
+		btnStats.setBounds(298, 389, 193, 39);
+		frame.getContentPane().add(btnStats);
+		
+		JLabel lblNewLabel_6 = new JLabel("Latest details");
+		lblNewLabel_6.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		lblNewLabel_6.setForeground(new Color(152, 201, 45));
+		lblNewLabel_6.setBounds(298, 489, 182, 48);
+		frame.getContentPane().add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_7 = new JLabel("Lecturer");
+		lblNewLabel_7.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		lblNewLabel_7.setForeground(new Color(152, 201, 45));
+		lblNewLabel_7.setBounds(380, 581, 118, 24);
+		frame.getContentPane().add(lblNewLabel_7);
+		
+		textField_4 = new JTextField();
+		textField_4.setBounds(537, 577, 356, 39);
+		frame.getContentPane().add(textField_4);
+		textField_4.setColumns(10);
+		
+		JLabel lblNewLabel_7_1 = new JLabel("Subject");
+		lblNewLabel_7_1.setForeground(new Color(152, 201, 45));
+		lblNewLabel_7_1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		lblNewLabel_7_1.setBounds(380, 653, 118, 24);
+		frame.getContentPane().add(lblNewLabel_7_1);
+		
+		JLabel lblNewLabel_7_1_1 = new JLabel("Group");
+		lblNewLabel_7_1_1.setForeground(new Color(152, 201, 45));
+		lblNewLabel_7_1_1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		lblNewLabel_7_1_1.setBounds(380, 726, 118, 24);
+		frame.getContentPane().add(lblNewLabel_7_1_1);
+		
+		textField_5 = new JTextField();
+		textField_5.setColumns(10);
+		textField_5.setBounds(537, 649, 356, 39);
+		frame.getContentPane().add(textField_5);
+		
+		textField_6 = new JTextField();
+		textField_6.setColumns(10);
+		textField_6.setBounds(537, 722, 356, 39);
+		frame.getContentPane().add(textField_6);
 	
 	 
-	    
+		setData();
+		setLatestData();
+	
 	}
 }

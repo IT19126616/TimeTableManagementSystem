@@ -279,6 +279,7 @@ public class ManageLocations {
 		txtMLBuildingName.setBounds(186, 29, 218, 36);
 		txtMLBuildingName.setFont(new Font("Tahoma", Font.BOLD, 20));		
 		txtMLBuildingName.setColumns(10);
+		txtMLBuildingName.setForeground(Color.WHITE);
 		panel_3.add(txtMLBuildingName);
 		txtMLBuildingName.setColumns(10);
 		txtMLBuildingName.setBackground(new Color(51, 51, 51));
@@ -287,6 +288,8 @@ public class ManageLocations {
 		txtMLRoomName = new JTextField();
 		txtMLRoomName.setBounds(186, 99, 218, 36);
 		txtMLRoomName.setFont(new Font("Tahoma", Font.BOLD, 20));		
+		txtMLRoomName.setForeground(Color.WHITE);
+		
 		panel_3.add(txtMLRoomName);
 		txtMLRoomName.setColumns(10);
 		txtMLRoomName.setBackground(new Color(51, 51, 51));
@@ -294,6 +297,8 @@ public class ManageLocations {
 		
 		txtMLCapacity = new JTextField();
 		txtMLCapacity.setBounds(662, 99, 197, 36);
+		txtMLCapacity.setForeground(Color.WHITE);
+
 		txtMLCapacity.setFont(new Font("Tahoma", Font.BOLD, 20));		
 		panel_3.add(txtMLCapacity);
 		txtMLCapacity.setColumns(10);

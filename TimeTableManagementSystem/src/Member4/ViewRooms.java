@@ -6,6 +6,9 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,6 +24,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import dbConnect.DBConnect;
+import net.proteanit.sql.DbUtils;
 
 public class ViewRooms {
 
@@ -256,6 +262,26 @@ public class ViewRooms {
 				}
 			});
 		scrollPane.setViewportView(table);
+		
+		JButton btnNewButton_3 = new JButton("Refresh");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Connection con = DBConnect.connect();
+					
+					String query="select * from roomSession ";
+					PreparedStatement pst=con.prepareStatement(query);
+					ResultSet rs=pst.executeQuery();
+					table.setModel(DbUtils.resultSetToTableModel(rs));
+					
+				}
+				catch(Exception loadTable) {
+					loadTable.printStackTrace();
+				}
+			}
+		});
+		btnNewButton_3.setBounds(1172, 560, 116, 30);
+		frame.getContentPane().add(btnNewButton_3);
 	 
 	    
 	}

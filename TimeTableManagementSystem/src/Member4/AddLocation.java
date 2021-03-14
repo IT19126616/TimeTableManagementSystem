@@ -243,7 +243,8 @@ public class AddLocation {
 		lblNewLabel_2.setForeground(new Color(169, 224, 49));
 		frameAddLocation.getContentPane().add(lblNewLabel_2);
 		
-		txtBuildingName = new JTextField();
+		txtBuildingName = new JTextField();	
+		txtBuildingName.setForeground(Color.WHITE);
 		txtBuildingName.setBackground(new Color(51, 51, 51));
 		txtBuildingName.setBorder(new LineBorder(new Color(169, 224, 49), 3));
 		txtBuildingName.setBounds(538, 261, 262, 40);
@@ -259,6 +260,7 @@ public class AddLocation {
 		
 		txtRoomName = new JTextField();
 		txtRoomName.setBackground(new Color(51, 51, 51));
+		txtRoomName.setForeground(Color.WHITE);
 		txtRoomName.setBorder(new LineBorder(new Color(169, 224, 49), 3));		txtRoomName.setBounds(538, 347, 262, 40);
 		txtRoomName.setFont(new Font("Tahoma", Font.BOLD, 20));
 		txtRoomName.setColumns(10);
@@ -287,6 +289,7 @@ public class AddLocation {
 		
 		txtCapacity = new JTextField();
 		txtCapacity.setBackground(new Color(51, 51, 51));
+		txtCapacity.setForeground(Color.WHITE);
 		txtCapacity.setBorder(new LineBorder(new Color(169, 224, 49), 3));			txtCapacity.setBounds(538, 547, 258, 40);
 		frameAddLocation.getContentPane().add(txtCapacity);
 		txtCapacity.setColumns(10);
