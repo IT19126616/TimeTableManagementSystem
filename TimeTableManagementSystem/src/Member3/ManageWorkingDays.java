@@ -36,12 +36,10 @@ import java.awt.event.MouseEvent;
 import javax.swing.JTextField;
 
 public class ManageWorkingDays {
+	public String Mon ,Tu ,We,Th,Fr,Sat,Sun;
 
 	private JFrame frmManageWork;
 	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
 	private JTextField textField_3;
 	private JCheckBox chckbxNewCheckBox;
 	private JCheckBox  chckbxTuesday;;
@@ -50,6 +48,7 @@ public class ManageWorkingDays {
 	private JCheckBox chckbxFriday;
 	private JCheckBox chckbxSaturday;
 	private JCheckBox chckbxSunday;
+	//private JSpinner spi1;
 
 	/**
 	 * Launch the application.
@@ -113,6 +112,18 @@ public class ManageWorkingDays {
 		panel_1.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Add Working Days");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AddWorkDays abc =new AddWorkDays();
+				try {
+					AddWorkDays.main(null);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		btnNewButton.setBounds(12, 320, 240, 50);
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_1.add(btnNewButton);
@@ -176,14 +187,102 @@ public class ManageWorkingDays {
 		frmManageWork.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
+		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(0, 0, 7, 1));
+		spinner.setForeground(Color.WHITE);
+		spinner.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		spinner.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		spinner.setBackground(new Color(31, 36, 42));
+		spinner.setBounds(539, 336, 262, 38);
+		frmManageWork.getContentPane().add(spinner);
+		
+		JSpinner spinner_1 = new JSpinner();
+		spinner_1.setModel(new SpinnerNumberModel(0, 0, 23, 1));
+		spinner_1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		spinner_1.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		spinner_1.setBounds(539, 548, 135, 38);
+		frmManageWork.getContentPane().add(spinner_1);
+		
+		JSpinner spinner_2 = new JSpinner();
+		spinner_2.setModel(new SpinnerNumberModel(0, 0, 30, 30));
+		spinner_2.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		spinner_2.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		spinner_2.setBounds(841, 548, 135, 38);
+		frmManageWork.getContentPane().add(spinner_2);
+		
+		
 		JButton btnClear = new JButton("Update");
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(chckbxNewCheckBox.isSelected()) {
+					Mon=chckbxNewCheckBox.getText().toString();
+				}
+				else{
+					Mon = " - ";
+				}
+				
+				
+				if(chckbxTuesday.isSelected()) {
+					Tu=chckbxTuesday.getText().toString();
+				}
+				else{
+					Tu = " - ";
+				}
+				
+				if(chckbxWednesday.isSelected()) {
+					We=chckbxWednesday.getText().toString();
+				}
+				else{
+					We = " - ";
+				}
+				
+				if(chckbxThursday.isSelected()) {
+					Th=chckbxThursday.getText().toString();
+				}
+				else{
+					Th = " - ";
+				}
+				
+				
+				if(chckbxFriday.isSelected()) {
+					Fr=chckbxFriday.getText().toString();
+				}
+				
+				else{
+					Fr = " - ";
+				}
+				
+				if(chckbxSaturday.isSelected()) {
+					Sat=chckbxSaturday.getText().toString();
+				}
+				
+				else{
+					Sat = " - ";
+				}
+				
+				if(chckbxSunday.isSelected()) {
+					Sun=chckbxSunday.getText().toString();
+				}
+				else{
+					Sun = " - ";
+				}
+				
+				if(spinner.getValue().equals(0)&& spinner_1.getValue().equals(0)&& spinner_2.getValue().equals(0)) {
+					JOptionPane.showMessageDialog(null, "Please Select Number of working Hours and Days!!!");
+				}
+				 else if(spinner.getValue().equals(0)) {
+						JOptionPane.showMessageDialog(null, "Please Select Number of working days!!!");
+					}
+				 
+				 else if(spinner_1.getValue().equals(0)&& spinner_2.getValue().equals(0)) {
+						JOptionPane.showMessageDialog(null, "Please Select Number of working hours and minutes!!!");
+					}
+				 else {
 				
 				try {
 					Connection con = DBConnect.connect();
 					
-					String query="Update main set noOfWorkingDays='"+textField.getText()+"',monday='"+chckbxNewCheckBox.getText()+"',tuesday='"+chckbxTuesday.getText()+"',wednesday='"+chckbxWednesday.getText()+"',thursday='"+chckbxThursday.getText()+"',friday='"+chckbxFriday.getText()+"',saturday='"+chckbxSaturday.getText()+"',sunday='"+chckbxSunday.getText()+"',hours='"+textField_1.getText()+"',minutes='"+textField_2.getText()+"' where mid='"+textField_3.getText()+"' ";
+					String query="Update main set noOfWorkingDays='"+spinner.getValue()+"',monday='"+Mon+"',tuesday='"+Tu+"',wednesday='"+We+"',thursday='"+Th+"',friday='"+Fr+"',saturday='"+Sat+"',sunday='"+Sun+"',hours='"+spinner_1.getValue()+"',minutes='"+spinner_2.getValue()+"' where mid='"+textField_3.getText()+"' ";
 					PreparedStatement pst=con.prepareStatement(query);
 					pst.executeUpdate();
 					JOptionPane.showMessageDialog(null, "Data Updated");
@@ -193,6 +292,7 @@ public class ManageWorkingDays {
 				catch(Exception e) {
 					e.printStackTrace();
 				}
+			}
 			}
 		});
 		btnClear.setBounds(423, 42, 238, 50);
@@ -322,11 +422,15 @@ public class ManageWorkingDays {
 			public void mouseClicked(MouseEvent arg0) {
 				int selectedRow=table.getSelectedRow();
 				
-				textField.setText(table.getValueAt(selectedRow, 1).toString());
-				textField_1.setText(table.getValueAt(selectedRow, 9).toString());
-				textField_2.setText(table.getValueAt(selectedRow, 10).toString());
-				textField_3.setText(table.getValueAt(selectedRow, 0).toString());
 				
+				//textField.setText(table.getValueAt(selectedRow, 1).toString());
+				//textField_1.setText(table.getValueAt(selectedRow, 9).toString());
+				//textField_2.setText(table.getValueAt(selectedRow, 10).toString());
+				textField_3.setText(table.getValueAt(selectedRow, 0).toString());
+				//spi1.setValue((Integer)table.getValueAt(selectedRow, 1));
+				
+				
+				//spi1.setValue((Integer)table.getValueAt(selectedRow, 1));
 				String checkdaymon=table.getValueAt(selectedRow, 2).toString();
 				String checkdaytues=table.getValueAt(selectedRow, 3).toString();
 				String checkdayWed=table.getValueAt(selectedRow, 4).toString();
@@ -335,6 +439,8 @@ public class ManageWorkingDays {
 				String checkdaySat=table.getValueAt(selectedRow, 7).toString();
 				
 				String checkdaySun=table.getValueAt(selectedRow, 8).toString();
+				
+				
 				
 				if(checkdaymon.equals("Monday")) {
 					chckbxNewCheckBox.setSelected(true);
@@ -386,6 +492,10 @@ public class ManageWorkingDays {
 				else{
 					chckbxSunday.setSelected(false);
 				}
+				spinner.setValue((Integer)table.getValueAt(selectedRow, 1));
+				spinner_1.setValue((Integer)table.getValueAt(selectedRow, 9));
+				spinner_2.setValue((Integer)table.getValueAt(selectedRow, 10));
+				
 				
 			}
 		});
@@ -398,49 +508,27 @@ public class ManageWorkingDays {
 		));
 		scrollPane.setViewportView(table);
 		
-		textField = new JTextField();
-		textField.setForeground(Color.WHITE);
-		textField.setBackground(new Color(51, 51, 51));
-		textField.setFont(new Font("Tahoma", Font.BOLD, 16));
-		textField.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-		textField.setBounds(539, 337, 241, 38);
-		frmManageWork.getContentPane().add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setForeground(Color.WHITE);
-		textField_1.setBackground(new Color(51, 51, 51));
-		textField_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		textField_1.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-		textField_1.setColumns(10);
-		textField_1.setBounds(539, 541, 135, 38);
-		frmManageWork.getContentPane().add(textField_1);
-		
-		textField_2 = new JTextField();
-		textField_2.setForeground(Color.WHITE);
-		textField_2.setBackground(new Color(51, 51, 51));
-		textField_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		textField_2.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-		textField_2.setColumns(10);
-		textField_2.setBounds(844, 541, 135, 38);
-		frmManageWork.getContentPane().add(textField_2);
-		
 		JLabel lblId = new JLabel("ID");
 		lblId.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblId.setBounds(277, 283, 252, 25);
 		frmManageWork.getContentPane().add(lblId);
-		lblId.setForeground(new Color(169, 224, 49));
+		lblId.setForeground(new Color(21,25,28));
 		
 		textField_3 = new JTextField();
-		textField_3.setForeground(Color.WHITE);
-		textField_3.setBackground(new Color(51, 51, 51));
+		textField_3.setForeground(new Color(21,25,28));
+		textField_3.setBackground(new Color(21,25,28));
 		textField_3.setEditable(false);
 		textField_3.setFont(new Font("Tahoma", Font.BOLD, 16));
-		textField_3.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		textField_3.setBorder(null);
 		textField_3.setColumns(10);
 		textField_3.setBounds(539, 270, 135, 38);
 		frmManageWork.getContentPane().add(textField_3);
-	 
+		
+		
+		
+		
+		
+		
 	    
 	}
 }

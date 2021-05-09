@@ -123,6 +123,18 @@ public class AddWorkDays {
 		btnNewButton.setFocusPainted(false);
 		
 		JButton btnManageGroups = new JButton("Manage Working Days");
+		btnManageGroups.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ManageWorkingDays abc =new ManageWorkingDays();
+				try {
+					ManageWorkingDays.main(null);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		btnManageGroups.setBounds(12, 383, 238, 50);
 		
 		panel_1.add(btnManageGroups);
@@ -189,7 +201,7 @@ public class AddWorkDays {
 		spi1.setBorder(new LineBorder(new Color(169, 224, 49), 3));
 		spi1.setBackground(new Color(31, 36, 42));
 		spi1.setBounds(536, 262, 262, 38);
-		spi1.setModel(new SpinnerNumberModel(0, 0, 100, 1));
+		spi1.setModel(new SpinnerNumberModel(0, 0, 7, 1));
 		spi1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		frmAddStudentGroups.getContentPane().add(spi1);
 		
@@ -254,6 +266,18 @@ public class AddWorkDays {
 				if(chckbxSunday.isSelected()) {
 					sunday="Sunday";
 				}
+				
+				 if(spi1.getValue().equals(0)&& spi2.getValue().equals(0)&& spi3.getValue().equals(0)) {
+					JOptionPane.showMessageDialog(null, "Please Select Number of working Hours and Days!!!");
+				}
+				 else if(spi1.getValue().equals(0)) {
+						JOptionPane.showMessageDialog(null, "Please Select Number of working days!!!");
+					}
+				 
+				 else if(spi2.getValue().equals(0)&& spi3.getValue().equals(0)) {
+						JOptionPane.showMessageDialog(null, "Please Select Number of working hours and minutes!!!");
+					}
+				 else {
 				 try {
 					 Connection con = DBConnect.connect();
 
@@ -266,13 +290,14 @@ public class AddWorkDays {
 	                        JOptionPane.showMessageDialog(btnSave, "This is alredy exist");
 	                    } else {
 	                        JOptionPane.showMessageDialog(btnSave,
-	                            "Welcome, Your account is sucessfully created");
+	                            "Data Successfully Added!!!");
 	                    }
 	                    con.close();
 	                } catch (Exception exception) {
 	                    //exception.printStackTrace();
 	                	JOptionPane.showMessageDialog(btnSave, "This is alredy exist");
 	                }
+			}
 			}
 		});
 		btnSave.setBounds(518, 42, 238, 50);
@@ -337,6 +362,7 @@ public class AddWorkDays {
 		
 		
 		spi2 = new JSpinner();
+		spi2.setModel(new SpinnerNumberModel(0, 0, 23, 1));
 		spi2.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		spi2.setBounds(536, 541, 135, 38);
 		frmAddStudentGroups.getContentPane().add(spi2);
@@ -349,6 +375,7 @@ public class AddWorkDays {
 		frmAddStudentGroups.getContentPane().add(lblHours);
 		
 		spi3 = new JSpinner();
+		spi3.setModel(new SpinnerNumberModel(0, 0, 30, 30));
 		spi3.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		spi3.setBounds(849, 541, 135, 38);
 		frmAddStudentGroups.getContentPane().add(spi3);
