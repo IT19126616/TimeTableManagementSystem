@@ -3,9 +3,14 @@ package MemberTwo;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.SystemColor;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -25,13 +30,29 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.LineBorder;
+
+import dbConnect.DBConnect;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class AddSessions {
 
 	private JFrame frmAddNotAvailbleTime;
 	private JTextField textField;
+	private JComboBox comboBox;
+	private JComboBox comboBox_2;
+	private JComboBox comboBox_1;
+	private JComboBox comboBox_3;
+	private JComboBox comboBox_4;
+	private JComboBox comboBox_5;
+	private JComboBox comboBox_4_1;
+	private JSpinner spinner_1;
+	private JSpinner spinner;
+	
 
 	/**
 	 * Launch the application.
@@ -60,6 +81,180 @@ public class AddSessions {
 	public AddSessions() {
 		initialize();
 	}
+	
+public void fillComboBox4() {
+		
+	
+		
+		try {
+			Connection con = DBConnect.connect();
+			
+			String query="select * from lecturers";
+			PreparedStatement pst=con.prepareStatement(query);
+			ResultSet rs=pst.executeQuery();
+			//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+			//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+			while(rs.next()) {
+				String lec1=rs.getString("lectureName");
+				comboBox.addItem(lec1);
+			}
+			con.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+public void fillLec2() {
+	
+	
+	
+	try {
+		Connection con = DBConnect.connect();
+		
+		String query="select * from lecturers";
+		PreparedStatement pst=con.prepareStatement(query);
+		ResultSet rs=pst.executeQuery();
+		//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+		//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+		while(rs.next()) {
+			String lec2=rs.getString("lectureName");
+			comboBox_2.addItem(lec2);
+		}
+		con.close();
+	}
+	catch(Exception e) {
+		e.printStackTrace();
+	}
+}
+
+
+
+public void fillSubject() {
+	
+	
+	
+	try {
+		Connection con = DBConnect.connect();
+		
+		String query="select * from subjects";
+		PreparedStatement pst=con.prepareStatement(query);
+		ResultSet rs=pst.executeQuery();
+		//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+		//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+		while(rs.next()) {
+			String sub=rs.getString("subName");
+			comboBox_1.addItem(sub);
+		}
+		con.close();
+	}
+	catch(Exception e) {
+		e.printStackTrace();
+	}
+}
+
+
+public void fillSubjectCode() {
+	
+	
+	
+	try {
+		Connection con = DBConnect.connect();
+		
+		String query="select * from subjects";
+		PreparedStatement pst=con.prepareStatement(query);
+		ResultSet rs=pst.executeQuery();
+		//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+		//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+		while(rs.next()) {
+			String subcode=rs.getString("subCode");
+			comboBox_3.addItem(subcode);
+		}
+		con.close();
+	}
+	catch(Exception e) {
+		e.printStackTrace();
+	}
+}
+
+
+
+public void fillStudentGrp() {
+	
+	
+	
+	try {
+		Connection con = DBConnect.connect();
+		
+		String query="select * from studentGroups";
+		PreparedStatement pst=con.prepareStatement(query);
+		ResultSet rs=pst.executeQuery();
+		//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+		//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+		while(rs.next()) {
+			String studentgrp=rs.getString("groupID");
+			comboBox_4.addItem(studentgrp);
+		}
+		con.close();
+	}
+	catch(Exception e) {
+		e.printStackTrace();
+	}
+}
+
+
+
+public void SubGrp() {
+	
+	
+	
+	try {
+		Connection con = DBConnect.connect();
+		
+		String query="select * from studentGroups";
+		PreparedStatement pst=con.prepareStatement(query);
+		ResultSet rs=pst.executeQuery();
+		//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+		//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+		while(rs.next()) {
+			String subgrp=rs.getString("subGroupID");
+			comboBox_5.addItem(subgrp);
+		}
+		con.close();
+	}
+	catch(Exception e) {
+		e.printStackTrace();
+	}
+}
+
+
+
+
+public void Tag() {
+	
+	
+	
+	try {
+		Connection con = DBConnect.connect();
+		
+		String query="select * from tag";
+		PreparedStatement pst=con.prepareStatement(query);
+		ResultSet rs=pst.executeQuery();
+		//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+		//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+		while(rs.next()) {
+			String subgrp=rs.getString("tagName");
+			comboBox_4_1.addItem(subgrp);
+		}
+		con.close();
+	}
+	catch(Exception e) {
+		e.printStackTrace();
+	}
+}
+
 
 	/**
 	 * Initialize the contents of the frame.
@@ -157,6 +352,51 @@ public class AddSessions {
 		btnClear.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		
 		JButton btnSave = new JButton("Submit");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+				String Lec1=(String) comboBox.getSelectedItem();
+				String Lec2=(String) comboBox_2.getSelectedItem();
+				String SubjectName=(String) comboBox_1.getSelectedItem();
+				String SubjectCode=(String) comboBox_3.getSelectedItem();
+				String StudentGrp=(String) comboBox_4.getSelectedItem();
+				String SubGrp=(String) comboBox_5.getSelectedItem();
+				String Tag=(String) comboBox_4_1.getSelectedItem();
+				String NoOfStudents= spinner_1.getValue().toString();
+				String Duration= spinner.getValue().toString();
+				String SessionSignature=textField.getText();
+				
+				
+if(textField.getText().equals("")||spinner_1.getValue().equals("")||spinner.getValue().equals("")||comboBox.getSelectedItem().equals("")) {
+					
+					JOptionPane.showMessageDialog(null, "Please Fill the form  First!");
+				}else {
+				
+				try {
+
+			
+					
+					
+					 Connection con = DBConnect.connect();
+
+	                    String query = "INSERT INTO session values(null, '" + Lec1 + "','" + Lec2 + "','" + SubjectName + "','" +
+	                    		SubjectCode + "','" + StudentGrp + "','" + SubGrp + "','"+ Tag +"','"+ NoOfStudents +"','"+ Duration +"','"+ SessionSignature +"')";
+	                  Statement sta = con.createStatement();
+	                    int x = sta.executeUpdate(query);
+	                   if (x == 0) {
+	                        JOptionPane.showMessageDialog(btnSave, "This is alredy exist");
+	                    } else {
+	                        JOptionPane.showMessageDialog(btnSave,"Session details successfully added!");
+	                    }
+	                    con.close();
+	                } catch (Exception exception) {
+	                    exception.printStackTrace();
+	                	
+	                }
+				}
+			}
+		});
 		btnSave.setForeground(new Color(21, 25, 28));
 		btnSave.setBackground(new Color(152, 201, 45));
 		btnSave.setBounds(512, 11, 238, 50);
@@ -164,6 +404,12 @@ public class AddSessions {
 		btnSave.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		
 		JButton btnGenerateSignature = new JButton("Generate Signature");
+		btnGenerateSignature.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				textField.setText(comboBox.getSelectedItem().toString()+"(Lec1) - "+comboBox_2.getSelectedItem().toString()+"(Lec2) - "+comboBox_1.getSelectedItem().toString()+" - "+comboBox_3.getSelectedItem().toString()+" - (Group)"+comboBox_5.getSelectedItem().toString()+" - "+comboBox_4_1.getSelectedItem().toString()+" - "+spinner_1.getValue().toString()+"(Students) - "+spinner.getValue().toString()+"Hrs");
+			}
+		});
 		btnGenerateSignature.setForeground(new Color(21, 25, 28));
 		btnGenerateSignature.setBackground(new Color(152, 201, 45));
 		btnGenerateSignature.setForeground(new Color(21, 25, 28));
@@ -172,14 +418,16 @@ public class AddSessions {
 		btnGenerateSignature.setBounds(760, 11, 238, 50);
 		panel_3.add(btnGenerateSignature);
 		
-		JComboBox comboBox = new JComboBox();
+		 comboBox = new JComboBox();
+		 comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer 1"}));
 		comboBox.setBounds(520, 179, 262, 38);
 		frmAddNotAvailbleTime.getContentPane().add(comboBox);
 		comboBox.setBackground(new Color(51, 51, 51));
 		comboBox.setForeground(Color.WHITE);
 		comboBox.setBorder(new LineBorder(new Color(169, 224, 49), 3));
 		
-		JComboBox comboBox_1 = new JComboBox();
+		 comboBox_1 = new JComboBox();
+		 comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Select Subject"}));
 		comboBox_1.setBounds(520, 242, 262, 38);
 		frmAddNotAvailbleTime.getContentPane().add(comboBox_1);
 		comboBox_1.setBackground(new Color(51, 51, 51));
@@ -192,7 +440,8 @@ public class AddSessions {
 		frmAddNotAvailbleTime.getContentPane().add(lblSelectGroup);
 		lblSelectGroup.setForeground(new Color(169, 224, 49));
 		
-		JComboBox comboBox_2 = new JComboBox();
+		 comboBox_2 = new JComboBox();
+		 comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer 2"}));
 		comboBox_2.setBounds(1072, 179, 262, 38);
 		frmAddNotAvailbleTime.getContentPane().add(comboBox_2);
 		comboBox_2.setBackground(new Color(51, 51, 51));
@@ -205,14 +454,16 @@ public class AddSessions {
 		frmAddNotAvailbleTime.getContentPane().add(lblSelectSubGroup);
 		lblSelectSubGroup.setForeground(new Color(169, 224, 49));
 		
-		JComboBox comboBox_3 = new JComboBox();
+		 comboBox_3 = new JComboBox();
+		 comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Select Subject Code"}));
 		comboBox_3.setBounds(1072, 242, 262, 38);
 		frmAddNotAvailbleTime.getContentPane().add(comboBox_3);
 		comboBox_3.setBackground(new Color(51, 51, 51));
 		comboBox_3.setForeground(Color.WHITE);
 		comboBox_3.setBorder(new LineBorder(new Color(169, 224, 49), 3));
 		
-		JComboBox comboBox_4 = new JComboBox();
+		 comboBox_4 = new JComboBox();
+		 comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"Select Student Group"}));
 		comboBox_4.setBounds(520, 311, 262, 38);
 		frmAddNotAvailbleTime.getContentPane().add(comboBox_4);
 		comboBox_4.setBackground(new Color(51, 51, 51));
@@ -231,7 +482,7 @@ public class AddSessions {
 		frmAddNotAvailbleTime.getContentPane().add(lblStartTime);
 		lblStartTime.setForeground(new Color(169, 224, 49));
 		
-		JSpinner spinner = new JSpinner();
+		 spinner = new JSpinner();
 		spinner.setFont(new Font("Tahoma", Font.BOLD, 20));
 		spinner.setBounds(520, 460, 262, 38);
 		frmAddNotAvailbleTime.getContentPane().add(spinner);
@@ -239,7 +490,7 @@ public class AddSessions {
 		spinner.setForeground(Color.WHITE);
 		spinner.setBorder(new LineBorder(new Color(169, 224, 49), 3));
 		
-		JSpinner spinner_1 = new JSpinner();
+		 spinner_1 = new JSpinner();
 		spinner_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 		spinner_1.setBounds(1072, 380, 258, 38);
 		frmAddNotAvailbleTime.getContentPane().add(spinner_1);
@@ -247,7 +498,8 @@ public class AddSessions {
 		spinner_1.setForeground(Color.WHITE);
 		spinner_1.setBorder(new LineBorder(new Color(169, 224, 49), 3));
 		
-		JComboBox comboBox_5 = new JComboBox();
+		 comboBox_5 = new JComboBox();
+		 comboBox_5.setModel(new DefaultComboBoxModel(new String[] {"Select Sub Group"}));
 		comboBox_5.setBounds(1072, 311, 262, 38);
 		frmAddNotAvailbleTime.getContentPane().add(comboBox_5);
 		comboBox_5.setBackground(new Color(51, 51, 51));
@@ -284,7 +536,8 @@ public class AddSessions {
 		frmAddNotAvailbleTime.getContentPane().add(lblSelectDay_1);
 		lblSelectDay_1.setForeground(new Color(169, 224, 49));
 		
-		JComboBox comboBox_4_1 = new JComboBox();
+		 comboBox_4_1 = new JComboBox();
+		 comboBox_4_1.setModel(new DefaultComboBoxModel(new String[] {"Select Tag"}));
 		comboBox_4_1.setBounds(520, 383, 262, 38);
 		frmAddNotAvailbleTime.getContentPane().add(comboBox_4_1);
 		comboBox_4_1.setBackground(new Color(51, 51, 51));
@@ -304,6 +557,15 @@ public class AddSessions {
 		textField.setBorder(new LineBorder(new Color(169, 224, 49), 3));
 		frmAddNotAvailbleTime.getContentPane().add(textField);
 		textField.setColumns(10);
+		
+		
+		fillComboBox4();
+		fillLec2();
+		fillSubject();
+		fillSubjectCode();
+		fillStudentGrp();
+		SubGrp();
+		Tag();
 	 
 	    
 	}
