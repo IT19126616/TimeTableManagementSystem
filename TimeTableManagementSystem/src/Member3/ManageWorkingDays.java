@@ -28,12 +28,16 @@ import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import Main.Dashboard;
 import net.proteanit.sql.DbUtils;
 
 import dbConnect.DBConnect;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextField;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ManageWorkingDays {
 	public String Mon ,Tu ,We,Th,Fr,Sat,Sun;
@@ -48,6 +52,8 @@ public class ManageWorkingDays {
 	private JCheckBox chckbxFriday;
 	private JCheckBox chckbxSaturday;
 	private JCheckBox chckbxSunday;
+	private JTextField textField;
+	private JTextField textField_1;
 	//private JSpinner spi1;
 
 	/**
@@ -84,6 +90,23 @@ public class ManageWorkingDays {
 	 */
 	private void initialize() {
 		frmManageWork = new JFrame();
+		frmManageWork.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent arg0) {
+				try {
+					Connection con = DBConnect.connect();
+					
+					String query="select * from main ";
+					PreparedStatement pst=con.prepareStatement(query);
+					ResultSet rs=pst.executeQuery();
+					table.setModel(DbUtils.resultSetToTableModel(rs));
+					
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		frmManageWork.getContentPane().setBackground(new Color(21,25,28));
 		frmManageWork.setBackground(Color.YELLOW);
 		frmManageWork.setResizable(false);
@@ -117,11 +140,11 @@ public class ManageWorkingDays {
 				AddWorkDays abc =new AddWorkDays();
 				try {
 					AddWorkDays.main(null);
-				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-						| UnsupportedLookAndFeelException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				frmManageWork.setVisible(false);
 			}
 		});
 		btnNewButton.setBounds(12, 320, 240, 50);
@@ -138,6 +161,20 @@ public class ManageWorkingDays {
 		btnManageGroups.setBackground(new Color(152, 201, 45));
 		
 		JButton btnViewGroups_1 = new JButton("<<Back");
+		btnViewGroups_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Dashboard itm = new Dashboard();
+				try {
+					Dashboard.main(null);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frmManageWork.setVisible(false);
+				
+			}
+		});
 		btnViewGroups_1.setBounds(12, 724, 238, 50);
 		btnViewGroups_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_1.add(btnViewGroups_1);
@@ -146,8 +183,7 @@ public class ManageWorkingDays {
 		
 		JLabel lbli = new JLabel("New label");
 		lbli.setBounds(0, 13, 264, 256);
-		ImageIcon image = new ImageIcon(this.getClass().getResource("/tt.png/"));
-		lbli.setIcon(image);
+		lbli.setIcon(new ImageIcon(this.getClass().getResource("/tt.png")));
 		panel_1.add(lbli);
 		
 		JLabel lblNewLabel_1 = new JLabel("Manage Working Days And Hours");
@@ -176,13 +212,13 @@ public class ManageWorkingDays {
 		lblNewLabel_2_1.setForeground(new Color(169, 224, 49));
 		
 		JLabel lblNewLabel_2_1_2 = new JLabel("Working Time Per Day");
-		lblNewLabel_2_1_2.setBounds(274, 554, 281, 25);
+		lblNewLabel_2_1_2.setBounds(272, 523, 281, 25);
 		lblNewLabel_2_1_2.setFont(new Font("Tahoma", Font.BOLD, 20));
 		frmManageWork.getContentPane().add(lblNewLabel_2_1_2);
 		lblNewLabel_2_1_2.setForeground(new Color(169, 224, 49));
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(262, 658, 1082, 124);
+		panel_3.setBounds(262, 695, 1082, 124);
 		panel_3.setBackground(new Color(0, 0, 0));
 		frmManageWork.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
@@ -195,20 +231,6 @@ public class ManageWorkingDays {
 		spinner.setBackground(new Color(31, 36, 42));
 		spinner.setBounds(539, 336, 262, 38);
 		frmManageWork.getContentPane().add(spinner);
-		
-		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setModel(new SpinnerNumberModel(0, 0, 23, 1));
-		spinner_1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
-		spinner_1.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-		spinner_1.setBounds(539, 548, 135, 38);
-		frmManageWork.getContentPane().add(spinner_1);
-		
-		JSpinner spinner_2 = new JSpinner();
-		spinner_2.setModel(new SpinnerNumberModel(0, 0, 30, 30));
-		spinner_2.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
-		spinner_2.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-		spinner_2.setBounds(841, 548, 135, 38);
-		frmManageWork.getContentPane().add(spinner_2);
 		
 		
 		JButton btnClear = new JButton("Update");
@@ -267,14 +289,14 @@ public class ManageWorkingDays {
 					Sun = " - ";
 				}
 				
-				if(spinner.getValue().equals(0)&& spinner_1.getValue().equals(0)&& spinner_2.getValue().equals(0)) {
+				if(spinner.getValue().equals(0)&& textField.getText().equals("")&& textField_1.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Please Select Number of working Hours and Days!!!");
 				}
 				 else if(spinner.getValue().equals(0)) {
 						JOptionPane.showMessageDialog(null, "Please Select Number of working days!!!");
 					}
 				 
-				 else if(spinner_1.getValue().equals(0)&& spinner_2.getValue().equals(0)) {
+				 else if(textField.getText().equals("")&& textField_1.getText().equals("")) {
 						JOptionPane.showMessageDialog(null, "Please Select Number of working hours and minutes!!!");
 					}
 				 else {
@@ -282,7 +304,7 @@ public class ManageWorkingDays {
 				try {
 					Connection con = DBConnect.connect();
 					
-					String query="Update main set noOfWorkingDays='"+spinner.getValue()+"',monday='"+Mon+"',tuesday='"+Tu+"',wednesday='"+We+"',thursday='"+Th+"',friday='"+Fr+"',saturday='"+Sat+"',sunday='"+Sun+"',hours='"+spinner_1.getValue()+"',minutes='"+spinner_2.getValue()+"' where mid='"+textField_3.getText()+"' ";
+					String query="Update main set noOfWorkingDays='"+spinner.getValue()+"',monday='"+Mon+"',tuesday='"+Tu+"',wednesday='"+We+"',thursday='"+Th+"',friday='"+Fr+"',saturday='"+Sat+"',sunday='"+Sun+"',starttime='"+textField.getText()+"',endtime='"+textField_1.getText()+"' where mid='"+textField_3.getText()+"' ";
 					PreparedStatement pst=con.prepareStatement(query);
 					pst.executeUpdate();
 					JOptionPane.showMessageDialog(null, "Data Updated");
@@ -399,18 +421,6 @@ public class ManageWorkingDays {
 		frmManageWork.getContentPane().add(chckbxSunday);
 		chckbxSunday.setForeground(new Color(169, 224, 49));
 		
-		JLabel lblHours = new JLabel("Hours");
-		lblHours.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblHours.setBounds(701, 554, 96, 25);
-		frmManageWork.getContentPane().add(lblHours);
-		lblHours.setForeground(new Color(169, 224, 49));
-		
-		JLabel lblMinutes = new JLabel("Minutes");
-		lblMinutes.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblMinutes.setBounds(1014, 554, 96, 25);
-		frmManageWork.getContentPane().add(lblMinutes);
-		lblMinutes.setForeground(new Color(169, 224, 49));
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(272, 166, 1039, 91);
 		frmManageWork.getContentPane().add(scrollPane);
@@ -493,8 +503,10 @@ public class ManageWorkingDays {
 					chckbxSunday.setSelected(false);
 				}
 				spinner.setValue((Integer)table.getValueAt(selectedRow, 1));
-				spinner_1.setValue((Integer)table.getValueAt(selectedRow, 9));
-				spinner_2.setValue((Integer)table.getValueAt(selectedRow, 10));
+				//textField.setName(table.getValueAt(selectedRow, 9));
+				textField.setText(table.getValueAt(selectedRow, 9).toString());
+				textField_1.setText(table.getValueAt(selectedRow, 10).toString());
+				//textField_1.setText((Integer)table.getValueAt(selectedRow, 10));
 				
 				
 			}
@@ -523,6 +535,36 @@ public class ManageWorkingDays {
 		textField_3.setColumns(10);
 		textField_3.setBounds(539, 270, 135, 38);
 		frmManageWork.getContentPane().add(textField_3);
+		
+		JLabel lblTime = new JLabel("Start Time");
+		lblTime.setForeground(new Color(169, 224, 49));
+		lblTime.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTime.setBounds(354, 569, 125, 25);
+		frmManageWork.getContentPane().add(lblTime);
+		
+		JLabel lblEndTime = new JLabel("End Time");
+		lblEndTime.setForeground(new Color(169, 224, 49));
+		lblEndTime.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblEndTime.setBounds(354, 632, 125, 25);
+		frmManageWork.getContentPane().add(lblEndTime);
+		
+		textField = new JTextField();
+		textField.setForeground(Color.WHITE);
+		textField.setFont(new Font("Tahoma", Font.BOLD, 16));
+		textField.setColumns(10);
+		textField.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		textField.setBackground(new Color(51, 51, 51));
+		textField.setBounds(539, 559, 262, 38);
+		frmManageWork.getContentPane().add(textField);
+		
+		textField_1 = new JTextField();
+		textField_1.setForeground(Color.WHITE);
+		textField_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		textField_1.setColumns(10);
+		textField_1.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		textField_1.setBackground(new Color(51, 51, 51));
+		textField_1.setBounds(539, 619, 262, 38);
+		frmManageWork.getContentPane().add(textField_1);
 		
 		
 		

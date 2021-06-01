@@ -21,6 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import Main.Dashboard;
 import dbConnect.DBConnect;
 import net.proteanit.sql.DbUtils;
 
@@ -36,6 +37,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextPane;
 
 public class ManageNotAvailableTime {
 
@@ -44,13 +46,12 @@ public class ManageNotAvailableTime {
 	private JTextField textField_10;
 	private JTextField textField;
 	private JTextField textField_2;
-	private JTextField textField_8;
 	private JButton btnClear;
-	private JComboBox comboBox1;
 	private JComboBox comboBox;
-	private JComboBox comboBox_1;
-	private JComboBox comboBox_2;
-	private JComboBox comboBox_3;
+	private JTextField textField_1;
+	private JTextField textField_3;
+	private JComboBox comboBox_4;
+	private JTextPane textField_4;
 
 	/**
 	 * Launch the application.
@@ -72,7 +73,7 @@ public class ManageNotAvailableTime {
 			}
 		});
 	}
-	public void fillComboBox2() {
+	/*public void fillComboBox2() {
 		try {
 			Connection con = DBConnect.connect();
 			
@@ -85,7 +86,7 @@ public class ManageNotAvailableTime {
 				String group=rs.getString("groupID");
 				String subgroup=rs.getString("subGroupID");
 				
-				comboBox1.addItem(group);
+				//comboBox1.addItem(group);
 				comboBox_2.addItem(subgroup);
 			}
 			con.close();
@@ -93,9 +94,32 @@ public class ManageNotAvailableTime {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
-	public void fillComboBox() {
+	/*public void fillComboBox5() {
+		try {
+			Connection con = DBConnect.connect();
+			
+			String query="select * from roomSession";
+			PreparedStatement pst=con.prepareStatement(query);
+			ResultSet rs=pst.executeQuery();
+			//comboBox.setModel(DbUtils.resultSetToNestedList(rs));
+			//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
+			while(rs.next()) {
+				String sign=rs.getString("sessionSignature");
+				
+				
+				//comboBox1.addItem(group);
+				textField_4.addItem(sign);
+			}
+			con.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}*/
+	
+	/*public void fillComboBox() {
 		try {
 			Connection con = DBConnect.connect();
 			
@@ -113,7 +137,7 @@ public class ManageNotAvailableTime {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	public void fillComboBox4() {
 		try {
@@ -126,7 +150,7 @@ public class ManageNotAvailableTime {
 			//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Lecturer..."}))
 			while(rs.next()) {
 				String room=rs.getString("roomName");
-				comboBox_1.addItem(room);
+				comboBox_4.addItem(room);
 			}
 			con.close();
 		}
@@ -192,6 +216,18 @@ public class ManageNotAvailableTime {
 		panel_1.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Add Not Availble Time");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AddNotAvailableTime itm = new AddNotAvailableTime();
+				try {
+					AddNotAvailableTime.main(null);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frmAddNotAvailbleTime.setVisible(false);
+			}
+		});
 		btnNewButton.setBounds(12, 320, 240, 50);
 		btnNewButton.setFont(new Font("Trebuchet MS", Font.BOLD, 19));
 		panel_1.add(btnNewButton);
@@ -200,12 +236,26 @@ public class ManageNotAvailableTime {
 		
 		JButton btnManageGroups = new JButton("Manage Not Available Time");
 		btnManageGroups.setBounds(12, 383, 252, 50);
-		btnManageGroups.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		btnManageGroups.setFont(new Font("Trebuchet MS", Font.BOLD, 17));
 		panel_1.add(btnManageGroups);
 		btnManageGroups.setForeground(new Color(21, 25, 28));
 		btnManageGroups.setBackground(new Color(152, 201, 45));
 		
 		JButton btnViewGroups_1 = new JButton("<<Back");
+		btnViewGroups_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Dashboard itm = new Dashboard();
+				try {
+					Dashboard.main(null);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frmAddNotAvailbleTime.setVisible(false);
+				
+			}
+		});
 		btnViewGroups_1.setBounds(12, 724, 238, 50);
 		btnViewGroups_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_1.add(btnViewGroups_1);
@@ -214,8 +264,7 @@ public class ManageNotAvailableTime {
 		
 		JLabel lbli = new JLabel("New label");
 		lbli.setBounds(0, 13, 264, 256);
-		ImageIcon image = new ImageIcon(this.getClass().getResource("/tt.png/"));
-		lbli.setIcon(image);
+		lbli.setIcon(new ImageIcon(this.getClass().getResource("/tt.png")));
 		panel_1.add(lbli);
 		
 		JLabel lblNewLabel_1 = new JLabel("Manage Not Available Time");
@@ -232,7 +281,7 @@ public class ManageNotAvailableTime {
 		frmAddNotAvailbleTime.getContentPane().add(separator);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(262, 722, 1082, 124);
+		panel_3.setBounds(262, 744, 1082, 102);
 		panel_3.setBackground(new Color(0, 0, 0));
 		frmAddNotAvailbleTime.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
@@ -242,11 +291,24 @@ public class ManageNotAvailableTime {
 			public void actionPerformed(ActionEvent arg0) {
 				//String group= comboBox.getSelectedItem().toString();
 				
+				/*else if(comboBox_4.getSelectedItem().equals("Select Session Signature...")) {
+					JOptionPane.showMessageDialog(null, "Please Select Session Signatue!!!");
+				}*/
+				 if(comboBox.getSelectedItem().equals("Select Day...")) {
+					JOptionPane.showMessageDialog(null, "Please Select Day!!!");
+				}
+				else if(comboBox_4.getSelectedItem().equals("Select Room...")) {
+					JOptionPane.showMessageDialog(null, "Please Select Room!!!");
+				}
+				
+				
+				else {
+				
 				
 				try {
 					Connection con = DBConnect.connect();
 					
-					String query="Update timeAlloLecture set lecName='"+comboBox_3.getSelectedItem()+"',Group='"+comboBox1.getSelectedItem()+"',subGroup='"+comboBox_1.getSelectedItem()+"',sessionSign='"+textField_8.getText()+"',day='"+comboBox.getSelectedItem()+"',startTime='"+textField.getText()+"',endTime='"+textField_2.getText()+"',room='"+comboBox_1.getSelectedItem()+"'where lectimeAllID='"+textField_10.getText()+"' ";
+					String query="Update timeAlloLecture set day='"+comboBox.getSelectedItem()+"',startTime='"+textField.getText()+"',endTime='"+textField_2.getText()+"',room='"+comboBox_4.getSelectedItem()+"'where lectimeAllID='"+textField_10.getText()+"' ";
 					PreparedStatement pst=con.prepareStatement(query);
 					pst.executeUpdate();
 					JOptionPane.showMessageDialog(null, "Data Updated");
@@ -258,8 +320,9 @@ public class ManageNotAvailableTime {
 					e.printStackTrace();
 				}
 			}
+			}
 		});
-		btnClear.setBounds(289, 42, 238, 50);
+		btnClear.setBounds(91, 29, 238, 50);
 		panel_3.add(btnClear);
 		btnClear.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		btnClear.setForeground(new Color(21, 25, 28));
@@ -278,6 +341,17 @@ public class ManageNotAvailableTime {
 					JOptionPane.showMessageDialog(null, "Data Deleted");
 					pst.close();
 					
+					textField_10.setText("");
+					textField_3.setText("");
+					textField.setText("");
+					textField_2.setText("");
+					textField_1.setText("");
+					//comboBox_2.setSelectedIndex(0);
+					//comboBox_3.setSelectedIndex(0);
+					comboBox_4.setSelectedIndex(0);
+					//comboBox1.setSelectedIndex(0);
+					comboBox.setSelectedIndex(0);
+					
 					}
 					catch(Exception e) {
 						e.printStackTrace();
@@ -286,15 +360,29 @@ public class ManageNotAvailableTime {
 
 			}
 		});
-		btnSave.setBounds(556, 42, 238, 50);
+		btnSave.setBounds(443, 29, 238, 50);
 		panel_3.add(btnSave);
 		btnSave.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		btnSave.setForeground(new Color(21, 25, 28));
 		btnSave.setBackground(new Color(152, 201, 45));
 		
 		JButton btnClear_1 = new JButton("Clear");
+		btnClear_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textField_10.setText("");
+				textField_3.setText("");
+				textField.setText("");
+				textField_2.setText("");
+				textField_1.setText("");
+				//comboBox_2.setSelectedIndex(0);
+				//comboBox_3.setSelectedIndex(0);
+				comboBox_4.setSelectedIndex(0);
+				//comboBox1.setSelectedIndex(0);
+				comboBox.setSelectedIndex(0);
+			}
+		});
 		btnClear_1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
-		btnClear_1.setBounds(820, 42, 238, 50);
+		btnClear_1.setBounds(789, 29, 238, 50);
 		panel_3.add(btnClear_1);
 		btnClear_1.setForeground(new Color(21, 25, 28));
 		btnClear_1.setBackground(new Color(152, 201, 45));
@@ -323,24 +411,25 @@ public class ManageNotAvailableTime {
                 
                
       		  
-                //textField_7.setText(table.getValueAt(selectedRow, 3).toString());
-                textField_8.setText(table.getValueAt(selectedRow, 4).toString());
-               // textField_9.setText(table.getValueAt(selectedRow, 5).toString());
-                textField.setText(table.getValueAt(selectedRow, 6).toString());
-                textField_2.setText(table.getValueAt(selectedRow, 7).toString());
-                //textField_6.setText(table.getValueAt(selectedRow, 8).toString());
+                textField_1.setText(table.getValueAt(selectedRow, 1).toString());
+                
+                //textField_8.setText(table.getValueAt(selectedRow, 7).toString());
+               textField_3.setText(table.getValueAt(selectedRow, 2).toString());
+                textField_2.setText(table.getValueAt(selectedRow, 6).toString());
+                textField.setText(table.getValueAt(selectedRow, 5).toString());
+                textField_4.setText(table.getValueAt(selectedRow, 3).toString());
                 
                 
-                String comboLevel1 = table.getValueAt(selectedRow, 2).toString();
+               /* String comboLevel1 = table.getValueAt(selectedRow, 2).toString();
 				for(int i=0; i<comboBox1.getItemCount();i++) {
 					if(comboBox1.getItemAt(i).toString().equalsIgnoreCase(comboLevel1)) {
 						
 						
 						comboBox1.setSelectedIndex(i);
 					}
-				}
+				}*/
 				
-				String comboLevel2 = table.getValueAt(selectedRow, 5).toString();
+				String comboLevel2 = table.getValueAt(selectedRow, 4).toString();
 				for(int i=0; i<comboBox.getItemCount();i++) {
 					if(comboBox.getItemAt(i).toString().equalsIgnoreCase(comboLevel2)) {
 						
@@ -349,32 +438,16 @@ public class ManageNotAvailableTime {
 					}
 				}
 				
-				String comboLevel3 = table.getValueAt(selectedRow, 8).toString();
-				for(int i=0; i<comboBox_1.getItemCount();i++) {
-					if(comboBox_1.getItemAt(i).toString().equalsIgnoreCase(comboLevel3)) {
+				String comboLevel3 = table.getValueAt(selectedRow, 7).toString();
+				for(int i=0; i<comboBox_4.getItemCount();i++) {
+					if(comboBox_4.getItemAt(i).toString().equalsIgnoreCase(comboLevel3)) {
 						
 						
-						comboBox_1.setSelectedIndex(i);
+						comboBox_4.setSelectedIndex(i);
 					}
 				}
 				
-				String comboLevel4 = table.getValueAt(selectedRow, 3).toString();
-				for(int i=0; i<comboBox_2.getItemCount();i++) {
-					if(comboBox_2.getItemAt(i).toString().equalsIgnoreCase(comboLevel4)) {
-						
-						
-						comboBox_2.setSelectedIndex(i);
-					}
-				}
 				
-				String comboLevel5 = table.getValueAt(selectedRow, 1).toString();
-				for(int i=0; i<comboBox_3.getItemCount();i++) {
-					if(comboBox_3.getItemAt(i).toString().equalsIgnoreCase(comboLevel5)) {
-						
-						
-						comboBox_3.setSelectedIndex(i);
-					}
-				}
 				
 				
 				
@@ -423,22 +496,16 @@ public class ManageNotAvailableTime {
 		lblLectureName.setBounds(272, 529, 252, 25);
 		frmAddNotAvailbleTime.getContentPane().add(lblLectureName);
 		
-		JLabel lblGroup = new JLabel("Group");
-		lblGroup.setForeground(new Color(169, 224, 49));
-		lblGroup.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblGroup.setBounds(272, 583, 252, 25);
-		frmAddNotAvailbleTime.getContentPane().add(lblGroup);
-		
 		JLabel lblSubgroup = new JLabel("SubGroup");
 		lblSubgroup.setForeground(new Color(169, 224, 49));
 		lblSubgroup.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblSubgroup.setBounds(272, 637, 252, 25);
+		lblSubgroup.setBounds(272, 583, 252, 25);
 		frmAddNotAvailbleTime.getContentPane().add(lblSubgroup);
 		
 		JLabel lblSessionSignature = new JLabel("Session Signature");
 		lblSessionSignature.setForeground(new Color(169, 224, 49));
 		lblSessionSignature.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblSessionSignature.setBounds(272, 687, 252, 25);
+		lblSessionSignature.setBounds(272, 663, 252, 25);
 		frmAddNotAvailbleTime.getContentPane().add(lblSessionSignature);
 		
 		JLabel lblDay = new JLabel("Day");
@@ -493,58 +560,61 @@ public class ManageNotAvailableTime {
 		textField_2.setBounds(1039, 574, 274, 34);
 		frmAddNotAvailbleTime.getContentPane().add(textField_2);
 		
-		textField_8 = new JTextField();
-		textField_8.setForeground(Color.WHITE);
-		textField_8.setFont(new Font("Tahoma", Font.BOLD, 16));
-		textField_8.setColumns(10);
-		textField_8.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-		textField_8.setBackground(new Color(51, 51, 51));
-		textField_8.setBounds(525, 677, 274, 34);
-		frmAddNotAvailbleTime.getContentPane().add(textField_8);
-		
-		 comboBox1 = new JComboBox();
-		 //comboBox1.setModel(new DefaultComboBoxModel(new String[] {"Y3WE", "Y3WD"}));
-		comboBox1.setBounds(525, 572, 276, 36);
-		frmAddNotAvailbleTime.getContentPane().add(comboBox1);
-		
 		 comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select Day...", "1.Monday", "2.Tuesday", "3.Wednesday", "4.Thursday", "5.Friday", "6.Saturday", "7.Sunday"}));
 		comboBox.setForeground(Color.WHITE);
 		comboBox.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
 		comboBox.setBorder(new LineBorder(new Color(169, 224, 49), 3));
 		comboBox.setBackground(new Color(51, 51, 51));
 		comboBox.setBounds(1041, 463, 272, 34);
 		frmAddNotAvailbleTime.getContentPane().add(comboBox);
+		 
+		  comboBox_4 = new JComboBox();
+		  comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"Select Room..."}));
+		 comboBox_4.setForeground(Color.WHITE);
+		 comboBox_4.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
+		 comboBox_4.setEditable(true);
+		 comboBox_4.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		 comboBox_4.setBackground(new Color(51, 51, 51));
+		 comboBox_4.setBounds(1041, 627, 272, 34);
+		 frmAddNotAvailbleTime.getContentPane().add(comboBox_4);
+		 
+		 textField_1 = new JTextField();
+		 textField_1.setEditable(false);
+		 textField_1.setForeground(Color.WHITE);
+		 textField_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		 textField_1.setColumns(10);
+		 textField_1.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		 textField_1.setBackground(new Color(51, 51, 51));
+		 textField_1.setBounds(525, 520, 274, 34);
+		 frmAddNotAvailbleTime.getContentPane().add(textField_1);
+		 
+		 textField_3 = new JTextField();
+		 textField_3.setEditable(false);
+		 textField_3.setForeground(Color.WHITE);
+		 textField_3.setFont(new Font("Tahoma", Font.BOLD, 16));
+		 textField_3.setColumns(10);
+		 textField_3.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		 textField_3.setBackground(new Color(51, 51, 51));
+		 textField_3.setBounds(525, 574, 274, 34);
+		 frmAddNotAvailbleTime.getContentPane().add(textField_3);
+		 
+		 JScrollPane scrollPane_1 = new JScrollPane();
+		 scrollPane_1.setBounds(272, 691, 1040, 53);
+		 frmAddNotAvailbleTime.getContentPane().add(scrollPane_1);
+		 
+		  textField_4 = new JTextPane();
+		  textField_4.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		  textField_4.setBackground(new Color(51, 51, 51));
+		  textField_4.setForeground(Color.WHITE);
+		  textField_4.setFont(new Font("Tahoma", Font.BOLD, 16));
+		 scrollPane_1.setViewportView(textField_4);
 		
-		 comboBox_1 = new JComboBox();
-		comboBox_1.setForeground(Color.WHITE);
-		comboBox_1.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
-		comboBox_1.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-		comboBox_1.setBackground(new Color(51, 51, 51));
-		comboBox_1.setBounds(1041, 634, 272, 34);
-		frmAddNotAvailbleTime.getContentPane().add(comboBox_1);
 		
-		 comboBox_2 = new JComboBox();
-		comboBox_2.setForeground(Color.WHITE);
-		comboBox_2.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
-		comboBox_2.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-		comboBox_2.setBackground(new Color(51, 51, 51));
-		comboBox_2.setBounds(527, 628, 272, 34);
-		frmAddNotAvailbleTime.getContentPane().add(comboBox_2);
-		
-		 comboBox_3 = new JComboBox();
-		comboBox_3.setForeground(Color.WHITE);
-		comboBox_3.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
-		comboBox_3.setBorder(new LineBorder(new Color(169, 224, 49), 3));
-		comboBox_3.setBackground(new Color(51, 51, 51));
-		comboBox_3.setBounds(527, 520, 272, 34);
-		comboBox_3.setSelectedItem(" ");
-		frmAddNotAvailbleTime.getContentPane().add(comboBox_3);
-		
-		
-		fillComboBox2();
-		fillComboBox();
+		//fillComboBox2();
+		//fillComboBox();
 		fillComboBox4();
+		//fillComboBox5();
 	    
 	}
 }

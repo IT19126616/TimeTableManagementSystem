@@ -1,14 +1,18 @@
 package Main;
 
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -25,16 +29,19 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import Member4.Statistic;
 import dbConnect.DBConnect;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Login {
 
-	private JFrame frmAddNotAvailbleTime;
+	JFrame frmAddNotAvailbleTime;
 	private JLabel lblNewLabel_1;
 	private JLabel lbli;
 	private JTextField textField;
-	private JTextField textField_1;
 	private JLabel lblNewLabel_5;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -109,7 +116,10 @@ public class Login {
 		frmAddNotAvailbleTime.setBounds(350, 90, 1350, 900);
 		frmAddNotAvailbleTime.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAddNotAvailbleTime.getContentPane().setLayout(null);
+		//
 		
+		///
+				
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 1344, 80);
 		panel.setBackground(Color.BLACK);
@@ -133,52 +143,52 @@ public class Login {
 		btnNewButton_1.setBounds(24, 11, 49, 48);
 		panel_1.add(btnNewButton_1);
 		
-		btnNewButton_1.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("/icons8_Twitter_32px_2.png"))); // NOI18N
+		btnNewButton_1.setIcon(new ImageIcon(this.getClass().getResource("/icons8_Twitter_32px_2.png"))); // NOI18N
        // jButton2.setToolTipText("Twitter");
 		btnNewButton_1.setBorder(null);
 		btnNewButton_1.setBorderPainted(false);
 		btnNewButton_1.setContentAreaFilled(false);
-		btnNewButton_1.setRolloverIcon(new javax.swing.ImageIcon(this.getClass().getResource("/icons8_Twitter_32px.png"))); // NOI18N
+		btnNewButton_1.setRolloverIcon(new ImageIcon(this.getClass().getResource("/icons8_Twitter_32px.png"))); // NOI18N
 		
 		JButton button = new JButton("");
-		button.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("/icons8_Facebook_32px_7.png")));
+		button.setIcon(new ImageIcon(this.getClass().getResource("/icons8_Facebook_32px_7.png")));
 		button.setContentAreaFilled(false);
 		button.setBorderPainted(false);
 		button.setBorder(null);
 		button.setBounds(94, 11, 49, 48);
 		panel_1.add(button);
-		button.setRolloverIcon(new javax.swing.ImageIcon(this.getClass().getResource("/icons8_Facebook_32px_2.png")));
+		button.setRolloverIcon(new ImageIcon(this.getClass().getResource("/icons8_Facebook_32px_2.png")));
 		
 		JButton button_1 = new JButton("");
-		button_1.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("/icons8_Instagram_32px_3.png")));
+		button_1.setIcon(new ImageIcon(this.getClass().getResource("/icons8_Instagram_32px_3.png")));
 		button_1.setContentAreaFilled(false);
 		button_1.setBorderPainted(false);
 		button_1.setBorder(null);
 		button_1.setBounds(174, 11, 49, 48);
 		panel_1.add(button_1);
-		button_1.setRolloverIcon(new javax.swing.ImageIcon(this.getClass().getResource("/icons8_Instagram_32px.png")));
+		button_1.setRolloverIcon(new ImageIcon(this.getClass().getResource("/icons8_Instagram_32px.png")));
 		
 		JButton button_2 = new JButton("");
-		button_2.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("/icons8_Secured_Letter_32px_2.png")));
+		button_2.setIcon(new ImageIcon(this.getClass().getResource("/icons8_Secured_Letter_32px_2.png")));
 		button_2.setContentAreaFilled(false);
 		button_2.setBorderPainted(false);
 		button_2.setBorder(null);
 		button_2.setBounds(252, 11, 49, 48);
 		panel_1.add(button_2);
-		button_2.setRolloverIcon(new javax.swing.ImageIcon(this.getClass().getResource("/icons8_Secured_Letter_32px.png")));
+		button_2.setRolloverIcon(new ImageIcon(this.getClass().getResource("/icons8_Secured_Letter_32px.png")));
 		
 		JButton button_3 = new JButton("");
-		button_3.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("/icons8_YouTube_32px_1.png")));
+		button_3.setIcon(new ImageIcon(this.getClass().getResource("/icons8_YouTube_32px_1.png")));
 		button_3.setContentAreaFilled(false);
 		button_3.setBorderPainted(false);
 		button_3.setBorder(null);
 		button_3.setBounds(328, 11, 49, 48);
 		panel_1.add(button_3);
-		button_3.setRolloverIcon(new javax.swing.ImageIcon(this.getClass().getResource("/icons8_YouTube_32px.png")));
+		button_3.setRolloverIcon(new ImageIcon(this.getClass().getResource("/icons8_YouTube_32px.png")));
 		
 		JLabel lblNewLabel_2 = new JLabel("New label");
 		lblNewLabel_2.setBounds(267, 124, 118, 131);
-		lblNewLabel_2.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("/user.png")));
+		lblNewLabel_2.setIcon(new ImageIcon(this.getClass().getResource("/user.png")));
 		panel_1.add(lblNewLabel_2);
 		
 		textField = new JTextField();
@@ -189,15 +199,53 @@ public class Login {
 		panel_1.add(textField);
 		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
-		textField_1.setForeground(Color.WHITE);
-		textField_1.setBackground(new Color(51, 51, 51));
-		textField_1.setColumns(10);
-		textField_1.setBounds(174, 462, 312, 48);
-		panel_1.add(textField_1);
-		
 		JButton btnNewButton_2 = new JButton("Sign In");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String username=textField.getText();
+				String password=passwordField.getText();
+				
+				String msg = "" + username;
+                msg += " \n";
+				
+				try {
+					Connection con = DBConnect.connect();
+										
+					String query="select username,password from login where username=? and password=?";
+					PreparedStatement pst=con.prepareStatement(query);
+					pst.setString(1, username);
+					pst.setString(2, password);
+					ResultSet rs=pst.executeQuery();
+					
+					int count=0;
+					while(rs.next()) {
+						count=count+1;
+					}
+					if(count==1) {
+						JOptionPane.showMessageDialog(null, "UserName and Password is correct");
+						Dashboard abc =new Dashboard();
+						Dashboard.main(null);
+						frmAddNotAvailbleTime.setVisible(false);
+						
+					}
+					else if(count>1) {
+						JOptionPane.showMessageDialog(null, "Duplicate UserName and Password");
+						//frmAddNotAvailbleTime.setVisible(false);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "UserName and Password is incorrect Try Again!!!");
+						//frmAddNotAvailbleTime.setVisible(false);
+					}
+					rs.close();
+					pst.close();
+					//frmAddNotAvailbleTime.setVisible(false);
+				}
+				
+				catch(Exception e) {
+					JOptionPane.showMessageDialog(null, e);
+				}
+			}
+		});
 		btnNewButton_2.setBackground(new Color(152, 201, 45));
 		btnNewButton_2.setForeground(new Color(51, 51, 51));
 		btnNewButton_2.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
@@ -223,39 +271,77 @@ public class Login {
 		panel_1.add(lblPassword);
 		
 		JLabel lblNewLabel_3 = new JLabel("New label");
-		lblNewLabel_3.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("/icons8_Male_User_35px.png"))); 
+		lblNewLabel_3.setIcon(new ImageIcon(this.getClass().getResource("/icons8_Male_User_35px.png"))); 
 		lblNewLabel_3.setBounds(121, 337, 43, 35);
 		panel_1.add(lblNewLabel_3);
 		
 		JLabel label = new JLabel("New label");
 		label.setBounds(121, 472, 43, 35);
-		label.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("/icons8_Lock_35px.png")));
+		label.setIcon(new ImageIcon(this.getClass().getResource("/icons8_Lock_35px.png")));
 		panel_1.add(label);
+		
+		JLabel lblDontHaveA = new JLabel("Don't Have an Account ? ");
+		lblDontHaveA.setForeground(new Color(169, 224, 49));
+		lblDontHaveA.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		lblDontHaveA.setBounds(129, 661, 248, 28);
+		panel_1.add(lblDontHaveA);
+		
+		JLabel lblSignUpHere = new JLabel("Register In Here...");
+		lblSignUpHere.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Register abc =new Register();
+				try {
+					Register.main(null);
+				} catch (Exception ex) {
+					// TODO Auto-generated catch block
+					ex.printStackTrace();
+				}
+				frmAddNotAvailbleTime.setVisible(false);
+			}
+		});
+		lblSignUpHere.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblSignUpHere.setForeground(new Color(0, 255, 255));
+		lblSignUpHere.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
+		lblSignUpHere.setBounds(371, 661, 161, 28);
+		panel_1.add(lblSignUpHere);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(174, 472, 312, 48);
+		passwordField.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		passwordField.setForeground(Color.WHITE);
+		passwordField.setBackground(new Color(51, 51, 51));
+		panel_1.add(passwordField);
         
 		
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(688, 78, 666, 787);
+		panel_3.setBounds(688, 78, 656, 787);
 		panel_3.setBackground(new Color(31,36,42));
 		frmAddNotAvailbleTime.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
 		
 		 lbli = new JLabel("");
-		lbli.setBounds(205, 38, 264, 256);
+		lbli.setBounds(79, 41, 500, 438);
 		panel_3.add(lbli);
-		ImageIcon image = new ImageIcon(this.getClass().getResource("/tt.png/"));
-		lbli.setIcon(image);
+		lbli.setIcon(new ImageIcon(this.getClass().getResource("/ttt.gif")));
+		//lbli.setIcon(image);
 		
 		lblNewLabel_5 = new JLabel("Clock");
-		lblNewLabel_5.setForeground(new Color(169, 224, 49));
+		lblNewLabel_5.setForeground(Color.WHITE);
 		lblNewLabel_5.setFont(new Font("Trebuchet MS", Font.BOLD, 30));
-		lblNewLabel_5.setBounds(93, 382, 490, 157);
+		lblNewLabel_5.setBounds(94, 544, 490, 157);
 		panel_3.add(lblNewLabel_5);
 		
 		
 		
 		
+		
+	}
+
+	public void setVisible(boolean b) {
+		// TODO Auto-generated method stub
 		
 	}
 }

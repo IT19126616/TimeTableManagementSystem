@@ -32,6 +32,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
+
+import Main.Dashboard;
+
 import javax.swing.border.LineBorder;
 
 public class AddWorkDays {
@@ -47,6 +50,11 @@ public class AddWorkDays {
 	private JSpinner spi1;
 	private JSpinner spi2;
 	private JSpinner spi3;
+	private JSpinner spinner;
+	private JSpinner spinner_1;
+	
+	
+	
 	
 
 	/**
@@ -128,11 +136,11 @@ public class AddWorkDays {
 				ManageWorkingDays abc =new ManageWorkingDays();
 				try {
 					ManageWorkingDays.main(null);
-				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-						| UnsupportedLookAndFeelException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				frmAddStudentGroups.setVisible(false);
 			}
 		});
 		btnManageGroups.setBounds(12, 383, 238, 50);
@@ -147,6 +155,20 @@ public class AddWorkDays {
 		btnManageGroups.setFocusPainted(false);
 		
 		JButton btnViewGroups_1 = new JButton("<<Back");
+		btnViewGroups_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Dashboard itm = new Dashboard();
+				try {
+					Dashboard.main(null);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frmAddStudentGroups.setVisible(false);
+				
+			}
+		});
 		btnViewGroups_1.setBounds(12, 724, 238, 50);
 		btnViewGroups_1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		panel_1.add(btnViewGroups_1);
@@ -160,8 +182,7 @@ public class AddWorkDays {
 		
 		JLabel lbli = new JLabel("New label");
 		lbli.setBounds(0, 13, 264, 256);
-		ImageIcon image = new ImageIcon(this.getClass().getResource("/tt.png/"));
-		lbli.setIcon(image);
+		lbli.setIcon(new ImageIcon(this.getClass().getResource("/tt.png")));
 		panel_1.add(lbli);
 		
 		JLabel lblNewLabel_1 = new JLabel("Add Working Days And Hours");
@@ -192,7 +213,7 @@ public class AddWorkDays {
 		
 		JLabel lblNewLabel_2_1_2 = new JLabel("Working Time Per Day");
 		lblNewLabel_2_1_2.setForeground(new Color(169, 224, 49));
-		lblNewLabel_2_1_2.setBounds(274, 554, 281, 25);
+		lblNewLabel_2_1_2.setBounds(272, 493, 281, 25);
 		lblNewLabel_2_1_2.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		frmAddStudentGroups.getContentPane().add(lblNewLabel_2_1_2);
 		
@@ -212,6 +233,21 @@ public class AddWorkDays {
 		panel_3.setLayout(null);
 		
 		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				spi1.setValue(0);
+				 spi2.setValue(0);
+				 spi3.setValue(0);
+				 chckbxNewCheckBox.setSelected(false);
+				 chckbxTuesday.setSelected(false);
+				 chckbxWednesday.setSelected(false);
+				 chckbxThursday.setSelected(false);
+				 chckbxFriday.setSelected(false);
+				 chckbxSaturday.setSelected(false);
+				 chckbxSunday.setSelected(false);
+			}
+		});
 		btnClear.setBounds(268, 42, 238, 50);
 		panel_3.add(btnClear);
 		btnClear.setForeground(new Color(21, 25, 28));
@@ -235,6 +271,8 @@ public class AddWorkDays {
 				String NoOfWorkingDays= spi1.getValue().toString();
 				String hours= spi2.getValue().toString();
 				String minutes= spi3.getValue().toString();
+				String starttime= spi2.getValue().toString()+":"+spi3.getValue().toString();
+				String endtime= spinner.getValue().toString()+":"+spinner_1.getValue().toString();
 				
 				String monday="-";
 				String tuesday="-";
@@ -277,12 +315,15 @@ public class AddWorkDays {
 				 else if(spi2.getValue().equals(0)&& spi3.getValue().equals(0)) {
 						JOptionPane.showMessageDialog(null, "Please Select Number of working hours and minutes!!!");
 					}
+				 else if(spinner.getValue().equals(0)&& spinner_1.getValue().equals(0)) {
+						JOptionPane.showMessageDialog(null, "Please Select Number of working hours and minutes!!!");
+					}
 				 else {
 				 try {
 					 Connection con = DBConnect.connect();
 
 	                    String query = "INSERT INTO main values(1, '" + NoOfWorkingDays + "','" + monday + "','" + tuesday + "','" +
-	                    		wednesday + "','" + thursday + "','" + friday + "','"+ saturday +"','"+ sunday +"','"+ hours +"','"+ minutes +"')";
+	                    		wednesday + "','" + thursday + "','" + friday + "','"+ saturday +"','"+ sunday +"','"+ starttime +"','"+ endtime +"')";
 
 	                    Statement sta = con.createStatement();
 	                    int x = sta.executeUpdate(query);
@@ -386,6 +427,42 @@ public class AddWorkDays {
 		lblMinutes.setFont(new Font("Trebuchet MS", Font.PLAIN, 20));
 		lblMinutes.setBounds(1014, 554, 96, 25);
 		frmAddStudentGroups.getContentPane().add(lblMinutes);
+		
+		JLabel lblStartTime = new JLabel("Start Time");
+		lblStartTime.setForeground(new Color(169, 224, 49));
+		lblStartTime.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		lblStartTime.setBounds(328, 548, 168, 25);
+		frmAddStudentGroups.getContentPane().add(lblStartTime);
+		
+		JLabel lblEndTime = new JLabel("End Time");
+		lblEndTime.setForeground(new Color(169, 224, 49));
+		lblEndTime.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		lblEndTime.setBounds(328, 616, 168, 25);
+		frmAddStudentGroups.getContentPane().add(lblEndTime);
+		
+		 spinner = new JSpinner();
+		spinner.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		spinner.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		spinner.setBounds(536, 609, 135, 38);
+		frmAddStudentGroups.getContentPane().add(spinner);
+		
+		JLabel label_1 = new JLabel("Hours");
+		label_1.setForeground(new Color(169, 224, 49));
+		label_1.setFont(new Font("Trebuchet MS", Font.PLAIN, 20));
+		label_1.setBounds(701, 622, 96, 25);
+		frmAddStudentGroups.getContentPane().add(label_1);
+		
+		 spinner_1 = new JSpinner();
+		spinner_1.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		spinner_1.setBorder(new LineBorder(new Color(169, 224, 49), 3));
+		spinner_1.setBounds(849, 609, 135, 38);
+		frmAddStudentGroups.getContentPane().add(spinner_1);
+		
+		JLabel label_2 = new JLabel("Minutes");
+		label_2.setForeground(new Color(169, 224, 49));
+		label_2.setFont(new Font("Trebuchet MS", Font.PLAIN, 20));
+		label_2.setBounds(1014, 622, 96, 25);
+		frmAddStudentGroups.getContentPane().add(label_2);
 	 
 	    
 	}
